@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Street 19 - Shop</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/shop-style.css}">
+</head>
+<body>
+
+<div class="main-header">
+    <div class="header-container">
+        <div class="logo">
+            <a th:href="@{/}">
+                <img th:src="@{/images/street 19.svg}" alt="logo">
+            </a>
+        </div>
+
+        <div class="nav-menu">
+            <ul>
+                <li><a href="/shop" class="nav-link bg"><span>shop</span></a></li>
+                <li><a href="/shop" class="nav-link bg"><span>culture</span></a></li>
+                <li><a href="/shop" class="nav-link bg"><span>learn</span></a></li>
+                <li><a href="/shop" class="nav-link bg"><span>events</span></a></li>
+            </ul>
+        </div>
+
+        <div class="header-icon">
+            <a href="#" class="header-search-toggle">
+                <img th:src="@{/images/Vector-1.svg}" alt="search" class="nav-icon">
+            </a>
+            <a th:href="@{/cart}">
+                <img th:src="@{/images/Vector.svg}" alt="cart" class="nav-icon">
+            </a>
+            <a th:href="@{/profile}">
+                <img th:src="@{/images/Vector-2.svg}" alt="profile" class="nav-icon">
+            </a>
+            <form class="header-search-form" th:action="@{/shop}" method="get">
+                <label>
+                    <input type="text" name="search" placeholder="Search...">
+                </label>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="banner">
+    <img th:src="@{/images/modelsk.jpg}" alt="Shop Banner">
+    <h1 class="banner-title">Shop</h1>
+</div>
+
+<div class="filter-container">
+    <div class="filter-bar">
+        <a th:href="@{/shop}" class="filter-btn" th:classappend="${activeCategory == 'All'} ? ' active'">All</a>
+        <a th:href="@{/shop(category='Clothes')}" class="filter-btn" th:classappend="${activeCategory == 'Clothes'} ? ' active'">Clothes</a>
+        <a th:href="@{/shop(category='Skateboarding')}" class="filter-btn" th:classappend="${activeCategory == 'Skateboarding'} ? ' active'">Skateboarding</a>
+        <a th:href="@{/shop(category='Accesses')}" class="filter-btn" th:classappend="${activeCategory == 'Accesses'} ? ' active'">Accesses</a>
+        <a th:href="@{/shop(category='Brands')}" class="filter-btn" th:classappend="${activeCategory == 'Brands'} ? ' active'">Brands</a>
+    </div>
+    <div class="search-cart">
+        <a href="#" class="icon-link" id="cartBtn">
+            <img th:src="@{/images/Vector.svg}" alt="Cart" class="icon-img">
+        </a>
+
+        <form class="search-box" id="searchBox" th:action="@{/shop}" method="get">
+            <label for="searchInput"></label><input type="text" id="searchInput" name="search" class="search-input" placeholder="Search..." th:value="${search}">
+            <span id="searchLabel">Search</span>
+            <button type="submit" class="search-submit" aria-label="Search">
+                <img th:src="@{/images/Vector-1.svg}" alt="Search" class="icon-img-search" id="searchIcon">
+            </button>
+        </form>
+    </div>
+</div>
+
+<main class="container">
+    <div class="product-grid" th:if="${!#lists.isEmpty(items)}">
+        <div class="product-card" th:each="product : ${items}">
+            <div class="product-image">
+                <img th:if="${product.imagePath != null && !product.imagePath.isBlank()}"
+                     th:src="${product.imagePath}"
+                     th:alt="${product.name}">
+            </div>
+            <div class="product-row">
+                <h3 class="product-title" th:text="${product.name}">Lorem Ipsum</h3>
+                <div class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')} + '$'">250.00$</div>
+            </div>
+            <div class="card-buttons">
+                <button class="btn-outline"
+                        th:data-name="${product.name}"
+                        th:data-price="${product.price}"
+                        th:data-image="${product.imagePath}"
+                        th:data-size="${product.size}"
+                        onclick="addWithData(this)">
+                    Add To Cart
+                </button>
+                <button class="btn-black"
+                        th:data-name="${product.name}"
+                        th:data-price="${product.price}"
+                        th:data-image="${product.imagePath}"
+                        th:data-size="${product.size}"
+                        onclick="addWithData(this)">
+                    Buy Now
+                </button>
+            </div>
+        </div>
+    </div>
+    <p class="empty-products" th:if="${#lists.isEmpty(items)}">Products not found</p>
+</main>
+
+<div id="cartDropdown" class="cart-dropdown">
+    <div id="cartItemsList" class="cart-items-list">
+    </div>
+    <div class="cart-total-section">
+        <div class="total-info">
+            <p id="cartTotalPrice" class="total-price">$0</p>
+            <button class="clear-all" onclick="clearCart()">CLEAR ALL</button>
+        </div>
+        <button class="view-cart-button" onclick="window.location.href='/cart'">VIEW CART</button>
+    </div>
+</div>
+
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-subscribe">
+                <h3>Sign up for updates</h3>
+                <form class="subscribeForm" id="subscribeForm">
+                    <label for="userEmail"></label><input type="email" id="userEmail" placeholder="E-mail" class="footer-input" required>
+                    <button type="submit" class="footer-submit">SUBSCRIBE</button>
+                </form>
+                <p id="subscribeMsg" style="margin-top:10px; font-size:13px; color: var(--accent-color);"></p>
+            </div>
+
+            <div class="footer-links">
+                <h4>MORE INFO</h4>
+                <ul>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-socials">
+                <div class="social-icons">
+                    <a href="https://instagram.com" target="_blank">
+                        <img th:src="@{/images/instagram.svg}" alt="Instagram">
+                    </a>
+                    <a href="https://youtube.com" target="_blank">
+                        <img th:src="@{/images/youtube.svg}" alt="YouTube">
+                    </a>
+                    <a href="https://tiktok.com" target="_blank">
+                        <img th:src="@{/images/tiktok.svg}" alt="TikTok">
+                    </a>
+                </div>
+
+                <div class="currency-selector" id="currencySelector">
+                    <button class="currency-btn" id="currencyBtn">
+                        <span id="currencyLabel">KAZAKHSTAN (USD $)</span>
+                        <span class="currency-arrow">∨</span>
+                    </button>
+                    <ul class="currency-dropdown" id="currencyDropdown">
+                        <li data-flag="🇰🇿" data-label="KAZAKHSTAN (USD $)">🇰🇿 KAZAKHSTAN (USD $)</li>
+                        <li data-flag="🇷🇺" data-label="RUSSIA (RUB ₽)">🇷🇺 RUSSIA (RUB ₽)</li>
+                        <li data-flag="🇪🇺" data-label="EUROPE (EUR €)">🇪🇺 EUROPE (EUR €)</li>
+                        <li data-flag="🇺🇸" data-label="USA (USD $)">🇺🇸 USA (USD $)</li>
+                        <li data-flag="🇬🇧" data-label="UK (GBP £)">🇬🇧 UK (GBP £)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-copyright">
+                © 2026 - STREET 19
+            </div>
+
+            <div class="footer-payment">
+                <a href="https://pay.google.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Google_Pay_Logo.svg}" alt="GPay">
+                </a>
+                <a href="https://mastercard.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/ma_symbol.svg}" alt="Mastercard">
+                </a>
+                <a href="https://visa.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Visa.svg}" alt="Visa">
+                </a>
+                <a href="https://apple.com/apple-pay" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Applepay.svg}" alt="ApplePay">
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script th:src="@{/js/shop.js}">
+</script>
+<script th:src="@{/js/header-actions.js}"></script>
+</body>
+</html>

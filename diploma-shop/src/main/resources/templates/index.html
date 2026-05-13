@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Street.19</title>
+    <link rel="icon" href="data:,">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="main-header">
+    <div class="header-container">
+        <div class="logo">
+            <a th:href="@{/}">
+                <img th:src="@{/images/street 19.svg}" alt="logo">
+            </a>
+        </div>
+
+        <div class="nav-menu">
+            <ul>
+                <li><a th:href="@{/shop}" class="nav-link bg"><span>shop</span></a></li>
+                <li><a th:href="@{/culture}" class="nav-link bg"><span>culture</span></a></li>
+                <li><a th:href="@{/learn}" class="nav-link bg"><span>learn</span></a></li>
+                <li><a th:href="@{/events}" class="nav-link bg"><span>events</span></a></li>
+            </ul>
+        </div>
+
+        <div class="header-icon">
+            <a href="#" class="header-search-toggle">
+                <img th:src="@{/images/Vector-1.svg}" alt="search" class="nav-icon">
+            </a>
+            <a th:href="@{/cart}">
+                <img th:src="@{/images/Vector.svg}" alt="cart" class="nav-icon">
+            </a>
+            <a th:href="@{/profile}">
+                <img th:src="@{/images/Vector-2.svg}" alt="profile" class="nav-icon">
+            </a>
+            <form class="header-search-form" th:action="@{/shop}" method="get">
+                <label>
+                    <input type="text" name="search" placeholder="Search...">
+                </label>
+            </form>
+        </div>
+    </div>
+
+</div>
+<section class="hero">
+<div class="hero-container">
+    <div class="hero-content">
+            <img th:src="@{/images/Ride it till the wheels fall off..svg}" alt="Ride it till the wheels fall off." class="hero-title-svg">
+        <div class="hero-desc">
+            <span class="bg-dark">clothing and knowledge</span><br>
+            <span class="bg-dark">to kickstart your journey.</span>
+        </div>
+    </div>
+
+        <div class="hero-image">
+            <img th:src="@{/images/main-page_first-img.png}" alt="Roman Hager perfoming a trick">
+        </div>
+    </div>
+    <img th:src="@{/images/Group 4.svg}" class="film-svg film-1" alt="plrnka1">
+    <img th:src="@{/images/Group 5.svg}" class="film-svg film-2" alt="plrnka2">
+</section>
+
+<section class="second-page">
+    <div class="bg-tag-container">
+        <img th:src="@{/images/тег.svg}" class="bg-tag-svg" alt="STREET tag">
+    </div>
+
+    <img th:src="@{/images/трещины.svg}" class="torn-paper" alt="decor">
+
+    <div class="card-container">
+        <div class="info-card">
+            <h2>Stop watching.<br>Start rolling.</h2>
+            <p>Get a board that handles your first fails and fuels your pro gains.</p>
+            <a href="/shop" class="btn">Go to shop</a>
+        </div>
+    </div>
+
+    <div class="skate-group skate-interactive" id="skateToggle">
+        <img th:src="@{/images/image 41.svg}" class="skate-part deck" alt="board">
+        <img th:src="@{/images/image 40.svg}" class="skate-part griptape" alt="griptape">
+    </div>
+</section>
+
+<section class="vibe-section">
+    <div class="vibe-container">
+
+        <div class="image-grid">
+            <img th:src="@{/images/skate1xxx.png}" class="grid-item item-1" alt="skooter skate">
+            <img th:src="@{/images/Skater26.png}" class="grid-item item-2" alt="a girl doing trick">
+            <img th:src="@{/images/skategirl.png}" class="grid-item item-3" alt="skater from 90s">
+            <img th:src="@{/images/photohist.png}" class="grid-item item-4" alt="old skate poster">
+        </div>
+
+        <div class="content-block">
+            <p class="description">
+                We don't need stadiums. We need ledges, rails, and cracked sidewalks.
+                Skate culture was born in the roar of the streets and the scent of burnt polyurethane.
+                Step behind the scenes of an industry that taught the world to see architecture from a different angle.
+            </p>
+            <a href="#" class="vibe-button">Check the Vibe</a>
+        </div>
+
+    </div>
+</section>
+
+
+<div class="album-viewport">
+    <button class="album-arrow album-arrow-prev" id="albumPrev">&#8592;</button>
+    <div class="slider" id="slider">
+        <img th:src="@{/images/redbull1.jpg}" class="slide" alt="skate">
+        <img th:src="@{/images/trick1air.jpg}" class="slide" alt="skate">
+        <img th:src="@{/images/redbull2.jpg}" class="slide" alt="skate">
+        <img th:src="@{/images/redbull3.jpg}" class="slide" alt="skate">
+        <img th:src="@{/images/trick2air.jpg}" class="slide" alt="skate">
+        <img th:src="@{/images/coolboywersd.jpg}" class="slide" alt="skate">
+    </div>
+    <button class="album-arrow album-arrow-next" id="albumNext">&#8594;</button>
+</div>
+
+<section class="text-info-section">
+    <div class="text-info-container">
+        <h2 class="text-info-title">From California to our own sidewalks.</h2>
+        <div class="text-info-content">
+            <p>
+                June 21st is the day the world drops everything to step on a board.
+                We keep this tradition alive locally, bringing the crew together at the city's main ledges and rails.
+                It's more than just an event—it's proof that skateboarding lives as long as we keep rolling.
+            </p>
+            <a href="#" class="show-more-btn">Show more</a>
+        </div>
+    </div>
+</section>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-subscribe">
+                <h3>Sign up for updates</h3>
+                <form class="subscribeForm" id="subscribeForm">
+                    <input type="email" id="userEmail" placeholder="E-mail" class="footer-input" required>
+                    <button type="submit" class="footer-submit">SUBSCRIBE</button>
+                </form>
+                <p id="subscribeMsg" style="margin-top:10px; font-size:13px; color: var(--accent-color);"></p>
+            </div>
+
+            <div class="footer-links">
+                <h4>MORE INFO</h4>
+                <ul>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-socials">
+                <div class="social-icons">
+                    <a href="https://instagram.com" target="_blank">
+                        <img th:src="@{/images/instagram.svg}" alt="Instagram">
+                    </a>
+                    <a href="https://youtube.com" target="_blank">
+                        <img th:src="@{/images/youtube.svg}" alt="YouTube">
+                    </a>
+                    <a href="https://tiktok.com" target="_blank">
+                        <img th:src="@{/images/tiktok.svg}" alt="TikTok">
+                    </a>
+                </div>
+
+                <div class="currency-selector" id="currencySelector">
+                    <button class="currency-btn" id="currencyBtn">
+                        <span id="currencyLabel">KAZAKHSTAN (USD $)</span>
+                        <span class="currency-arrow">∨</span>
+                    </button>
+                    <ul class="currency-dropdown" id="currencyDropdown">
+                        <li data-flag="🇰🇿" data-label="KAZAKHSTAN (USD $)">🇰🇿 KAZAKHSTAN (USD $)</li>
+                        <li data-flag="🇷🇺" data-label="RUSSIA (RUB ₽)">🇷🇺 RUSSIA (RUB ₽)</li>
+                        <li data-flag="🇪🇺" data-label="EUROPE (EUR €)">🇪🇺 EUROPE (EUR €)</li>
+                        <li data-flag="🇺🇸" data-label="USA (USD $)">🇺🇸 USA (USD $)</li>
+                        <li data-flag="🇬🇧" data-label="UK (GBP £)">🇬🇧 UK (GBP £)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-copyright">
+                © 2026 - STREET 19
+            </div>
+
+            <div class="footer-payment">
+                <a href="https://pay.google.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Google_Pay_Logo.svg}" alt="GPay">
+                </a>
+                <a href="https://mastercard.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/ma_symbol.svg}" alt="Mastercard">
+                </a>
+                <a href="https://visa.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Visa.svg}" alt="Visa">
+                </a>
+                <a href="https://apple.com/apple-pay" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Applepay.svg}" alt="ApplePay">
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/header-actions.js}"></script>
+</body>
+</html>
