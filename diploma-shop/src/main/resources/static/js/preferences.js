@@ -14,9 +14,9 @@
     };
 
     const languages = {
-        kk: { label: 'КАЗ', htmlLang: 'kk' },
-        ru: { label: 'РУС', htmlLang: 'ru' },
-        en: { label: 'АНГЛ', htmlLang: 'en' }
+        en: { label: 'ENG', htmlLang: 'en' },
+        ru: { label: 'RUS', htmlLang: 'ru' },
+        kk: { label: 'KAZ', htmlLang: 'kk' }
     };
 
     const translations = {
