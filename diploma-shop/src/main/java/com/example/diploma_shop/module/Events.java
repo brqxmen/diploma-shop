@@ -62,6 +62,33 @@ public class Events {
         return imageUrl;
     }
 
+    @Transient
+    public String getImagePath() {
+        if (imageUrl == null || imageUrl.isBlank()) {
+            return "";
+        }
+
+        String image = imageUrl.trim();
+
+        if (image.startsWith("http")) {
+            return image;
+        }
+        if (image.contains("static/images/")) {
+            return "/images/" + image.substring(image.indexOf("static/images/") + "static/images/".length());
+        }
+        if (image.contains("/images/")) {
+            return "/images/" + image.substring(image.indexOf("/images/") + "/images/".length());
+        }
+        if (image.startsWith("images/")) {
+            return "/" + image;
+        }
+        if (image.startsWith("/")) {
+            return image;
+        }
+
+        return "/images/" + image;
+    }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/theme.css(v='20260518-1')}">
-    <link rel="stylesheet" th:href="@{/css/events.css}">
+    <link rel="stylesheet" th:href="@{/css/events.css(v='20260520-2')}">
     <link rel="stylesheet" th:href="@{/css/ui-polish.css(v='20260520-1')}">
 </head>
 <body>
@@ -87,9 +87,9 @@
                  th:data-date="${#temporals.format(event.eventDate, 'dd MMM yyyy · HH:mm')}"
                  th:data-date-iso="${event.eventDate}"
                  th:data-location="${event.location}"
-                 th:data-image="${event.imageUrl}"
+                 th:data-image="${event.imagePath}"
                  onclick="openEventModal(this)">
-                <img th:src="${event.imageUrl}" th:alt="${event.title}">
+                <img th:src="${event.imagePath}" th:alt="${event.title}">
                 <div class="event-card-overlay">
                     <p class="event-description" th:text="${event.description}"></p>
                     <div class="event-card-info">
@@ -112,9 +112,9 @@
                  th:data-date="${#temporals.format(event.eventDate, 'dd MMM yyyy · HH:mm')}"
                  th:data-date-iso="${event.eventDate}"
                  th:data-location="${event.location}"
-                 th:data-image="${event.imageUrl}"
+                 th:data-image="${event.imagePath}"
                  onclick="openEventModal(this)">
-                <img th:src="${event.imageUrl}" th:alt="${event.title}">
+                <img th:src="${event.imagePath}" th:alt="${event.title}">
                 <div class="event-card-overlay">
                     <p class="event-description" th:text="${event.description}"></p>
                     <div class="event-card-info">
@@ -123,9 +123,7 @@
                     </div>
                 </div>
             </div>
-            <div class="empty-slot"></div>
-            <div class="empty-slot"></div>
-            <div class="empty-slot"></div>
+            <p class="no-events" data-i18n="events.archiveEmpty" th:if="${#lists.isEmpty(archiveEvents)}">No archive events yet</p>
         </div>
     </section>
 

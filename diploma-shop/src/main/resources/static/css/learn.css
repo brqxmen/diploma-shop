@@ -409,16 +409,31 @@ header {
 .style-btn {
     padding: 12px 35px;
     border: 1px solid var(--text-dark);
-    background: none;
+    background: transparent;
     border-radius: 25px;
+    color: var(--text-dark);
     cursor: pointer;
+    font-family: inherit;
     font-weight: bold;
+    text-decoration: none;
     transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(242, 101, 9, 0.18);
+}
+
+.style-btn:focus,
+.style-btn:focus-visible,
+.style-btn:active {
+    border-color: var(--main-color);
+    color: var(--text-dark);
+    outline: none;
 }
 
 .style-btn.active {
     background-color: var(--text-dark);
     color: var(--accent-color);
+    border-color: var(--text-dark);
 }
 
 .setup-card {
