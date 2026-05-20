@@ -1,0 +1,15 @@
+:root {
+    --main-color: #F26509;
+    --accent-color: #EFE4D0;
+    --text-dark: #333127;
+}
+
+.subscribe-message {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--accent-color, #EFE4D0);
+}
+
+.subscribe-message--main {
+    color: var(--main-color, #F26509);
+}

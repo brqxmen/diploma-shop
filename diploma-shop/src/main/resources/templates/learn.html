@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Street.19</title>
+    <link rel="icon" href="data:,">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/theme.css(v='20260518-1')}">
+    <link rel="stylesheet" th:href="@{/css/learn.css}">
+    <link rel="stylesheet" th:href="@{/css/ui-polish.css(v='20260518-3')}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="main-header">
+    <div class="header-container">
+        <div class="logo">
+            <a th:href="@{/}">
+                <img th:src="@{/images/street 19.svg}" alt="logo">
+            </a>
+        </div>
+
+        <div class="nav-menu">
+            <ul>
+                <li><a th:href="@{/shop}" class="nav-link bg"><span>shop</span></a></li>
+                <li><a th:href="@{/culture}" class="nav-link bg"><span>culture</span></a></li>
+                <li><a th:href="@{/learn}" class="nav-link bg"><span>learn</span></a></li>
+                <li><a th:href="@{/events}" class="nav-link bg"><span>events</span></a></li>
+            </ul>
+        </div>
+
+        <div class="header-icon">
+            <a href="#" class="header-search-toggle">
+                <img th:src="@{/images/Vector-1.svg}" alt="search" class="nav-icon">
+            </a>
+            <a th:href="@{/cart}">
+                <img th:src="@{/images/Vector.svg}" alt="cart" class="nav-icon">
+            </a>
+            <a th:href="@{/profile}">
+                <img th:src="@{/images/Vector-2.svg}" alt="profile" class="nav-icon">
+            </a>
+            <form class="header-search-form" th:action="@{/shop}" method="get">
+                <label>
+                    <input type="text" name="search" placeholder="Search...">
+                </label>
+            </form>
+        </div>
+    </div>
+
+</div>
+<section class="manual-section">
+    <div class="manual-container">
+
+        <div class="manual-text">
+            <h2>STREET MANUAL</h2>
+            <p>EVERY TRICK STARTS WITH UNDERSTANDING THE MECHANICS. FROM THE GRAIN OF THE MAPLE TO THE HARDNESS OF THE URETHANE — KNOWLEDGE IS THE FOUNDATION OF YOUR STYLE. STUDY THE BLUEPRINT, MASTER THE BASICS, AND OWN THE STREETS.</p>
+        </div>
+
+        <div class="blueprint-wrapper">
+            <img th:src="@{/images/girltrick.jpg}" class="blueprint-img" alt="a girl flying">
+
+            <div class="hotspot" style="top: 62%; left: 28%;"
+                 data-title="DECK"
+                 data-info="The deck is made of 7 layers of pressed maple wood. It's the foundation of your setup — width ranges from 7.5&quot; to 8.5&quot; depending on your style.">
+                <div class="dot"></div>
+            </div>
+
+            <div class="hotspot" style="top: 80%; left: 58%;"
+                 data-title="WHEELS"
+                 data-info="Urethane wheels come in different hardness levels (durometer). Softer wheels (78A–87A) absorb rough surfaces, harder wheels (99A+) are faster and better for street tricks.">
+                <div class="dot"></div>
+            </div>
+
+            <div class="hotspot" style="top: 73%; left: 52%;"
+                 data-title="TRUCKS"
+                 data-info="Trucks are the metal T-shaped axles mounted under the deck. They control turning and are used for grinding. Tighter trucks = more stability, looser = more turn.">
+                <div class="dot"></div>
+            </div>
+
+            <div class="hotspot" style="top: 60%; left: 55%;"
+                 data-title="GRIPTAPE"
+                 data-info="Griptape is the sandpaper-like surface on top of the deck. It keeps your feet locked in place during tricks. Usually black, but comes in all colors and patterns.">
+                <div class="dot"></div>
+            </div>
+
+            <div class="hotspot" style="top: 75%; left: 20%;"
+                 data-title="BEARINGS"
+                 data-info="Bearings sit inside the wheels and allow them to spin. Rated on the ABEC scale — higher ABEC means smoother, faster spin. Clean them regularly to keep speed.">
+                <div class="dot"></div>
+            </div>
+
+            <!-- Карточка-попап -->
+            <div id="info-card" class="info-popup">
+                <div class="close-pop" id="close-pop">×</div>
+                <h4 id="pop-title">PART NAME</h4>
+                <p id="pop-desc">Click a point to learn more.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="physics-section">
+    <h2 class="physics-title">THE PHYSICS OF OLLIE</h2>
+
+    <div class="ollie-visual">
+        <img th:src="@{/images/ollie.jpg}" alt="Ollie Sequence">
+    </div>
+
+    <div class="physics-cards">
+        <div class="physics-card">
+            <span class="card-number">01</span>
+            <h3 class="card-title">THE POP</h3>
+            <p class="card-text">
+                The rider snaps the tail down. This creates a powerful impulse against the ground, launching the board upwards.
+            </p>
+            <div class="glow-line"></div>
+        </div>
+
+        <div class="physics-card">
+            <span class="card-number">02</span>
+            <h3 class="card-title">THE LEVELING</h3>
+            <p class="card-text">
+                The front foot slides up the griptape, using friction to pull the board level and control the height of the jump.
+            </p>
+            <div class="glow-line"></div>
+        </div>
+
+        <div class="physics-card">
+            <span class="card-number">03</span>
+            <h3 class="card-title">THE LANDING</h3>
+            <p class="card-text">
+                Gravity takes over. The rider centers their weight over the bolts to ensure a clean, stable landing without snapping the deck.
+            </p>
+            <div class="glow-line"></div>
+        </div>
+    </div>
+
+    <a href="https://youtu.be/qkU7GNoil3o?si=vG2OMooxdIZ4QJzn" class="video-btn">WATCH VIDEO</a>
+</section>
+
+<section class="setup-guide">
+    <h2 class="guide-title">GEAR SETUP GUIDE</h2>
+    <p class="guide-subtitle">SELECT YOUR RIDING STYLE TO GET TECHNICAL RECOMMENDATIONS</p>
+
+    <div class="style-selector">
+        <button class="style-btn active" onclick="updateSetup('street', this)">STREET</button>
+        <button class="style-btn" onclick="updateSetup('park', this)">PARK/BOWL</button>
+        <button class="style-btn" onclick="updateSetup('vert', this)">VERT/RAMPS</button>
+    </div>
+
+    <div class="setup-card" id="setup-card">
+        <div class="specs-grid">
+            <div class="spec-item">
+                <span class="spec-label">DECK WIDTH</span>
+                <p class="spec-value" id="deck-width">7.75" — 8.25"</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-label">WHEEL HARDNESS</span>
+                <p class="spec-value" id="wheel-hardness">99A — 101A (HARD)</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-label">TRUCK HEIGHT</span>
+                <p class="spec-value" id="truck-height">Low / Medium</p>
+            </div>
+        </div>
+        <p class="spec-description" id="spec-desc">
+            Smaller boards and harder wheels make technical flip tricks and grinds on rails easier.
+        </p>
+    </div>
+</section>
+
+
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-subscribe">
+                <h3>Sign up for updates</h3>
+                <form class="subscribeForm" id="subscribeForm">
+                    <input type="email" id="userEmail" placeholder="E-mail" class="footer-input" required>
+                    <button type="submit" class="footer-submit">SUBSCRIBE</button>
+                </form>
+                <p id="subscribeMsg" class="subscribe-message"></p>
+            </div>
+
+            <div class="footer-links">
+                <h4>MORE INFO</h4>
+                <ul>
+                    <li><a href="https://t.me/bmnknz" target="_blank">Contact</a></li>
+                    <li><a href="https://t.me/bmnknz" target="_blank">Help Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-socials">
+                <div class="social-icons">
+                    <a href="https://instagram.com" target="_blank">
+                        <img th:src="@{/images/instagram.svg}" alt="Instagram">
+                    </a>
+                    <a href="https://youtube.com" target="_blank">
+                        <img th:src="@{/images/youtube.svg}" alt="YouTube">
+                    </a>
+                    <a href="https://tiktok.com" target="_blank">
+                        <img th:src="@{/images/tiktok.svg}" alt="TikTok">
+                    </a>
+                </div>
+
+                <div class="currency-selector" id="currencySelector">
+                    <button class="currency-btn" id="currencyBtn">
+                        <span id="currencyLabel">KAZAKHSTAN (USD $)</span>
+                        <span class="currency-arrow">∨</span>
+                    </button>
+                    <ul class="currency-dropdown" id="currencyDropdown">
+                        <li data-flag="🇰🇿" data-label="KAZAKHSTAN (USD $)">🇰🇿 KAZAKHSTAN (USD $)</li>
+                        <li data-flag="🇷🇺" data-label="RUSSIA (RUB ₽)">🇷🇺 RUSSIA (RUB ₽)</li>
+                        <li data-flag="🇪🇺" data-label="EUROPE (EUR €)">🇪🇺 EUROPE (EUR €)</li>
+                        <li data-flag="🇺🇸" data-label="USA (USD $)">🇺🇸 USA (USD $)</li>
+                        <li data-flag="🇬🇧" data-label="UK (GBP £)">🇬🇧 UK (GBP £)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-copyright">
+                © 2026 - STREET 19
+            </div>
+
+            <div class="footer-payment">
+                <a href="https://pay.google.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Google_Pay_Logo.svg}" alt="GPay">
+                </a>
+                <a href="https://mastercard.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/ma_symbol.svg}" alt="Mastercard">
+                </a>
+                <a href="https://visa.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Visa.svg}" alt="Visa">
+                </a>
+                <a href="https://apple.com/apple-pay" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Applepay.svg}" alt="ApplePay">
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script th:src="@{/js/learn.js(v='20260518-1')}"></script>
+<script th:src="@{/js/preferences.js(v='20260518-6')}"></script>
+</body>
+</html>

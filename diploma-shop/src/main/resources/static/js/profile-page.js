@@ -8,13 +8,57 @@ const defaultProfile = {
 let profile = JSON.parse(localStorage.getItem('street19_profile')) || defaultProfile;
 let orders = JSON.parse(localStorage.getItem('street19_orders')) || [];
 
+const orderStatusLabels = {
+    new: 'Confirmed',
+    processing: 'In processing',
+    preparing: 'Preparing to ship',
+    delivery: 'In delivery',
+    delivered: 'Delivered',
+    cancelled: 'Cancelled'
+};
+
+const orderStatusAliases = {
+    Confirmed: 'new',
+    confirmed: 'new',
+    New: 'new',
+    new: 'new',
+    Processing: 'processing',
+    processing: 'processing',
+    Preparing: 'preparing',
+    preparing: 'preparing',
+    Delivery: 'delivery',
+    delivery: 'delivery',
+    Delivered: 'delivered',
+    delivered: 'delivered',
+    Cancelled: 'cancelled',
+    Canceled: 'cancelled',
+    cancelled: 'cancelled',
+    canceled: 'cancelled',
+    'Отменён': 'cancelled'
+};
+
 document.addEventListener('DOMContentLoaded', async function () {
     initTabs();
     await loadProfile();
     renderProfile();
     renderOrders();
+    initOrderActions();
     initProfileModal();
+    initLogout();
 });
+
+function handleLogout() {
+    localStorage.removeItem('street19_profile_id');
+    localStorage.removeItem('street19_profile_email');
+    localStorage.removeItem('street19_profile');
+    window.location.href = '/register';
+}
+
+function initLogout() {
+    const btn = document.getElementById('logoutBtn');
+    if (!btn) return;
+    btn.addEventListener('click', handleLogout);
+}
 
 function saveProfile() {
     localStorage.setItem('street19_profile', JSON.stringify(profile));
@@ -74,7 +118,58 @@ function normalizeImagePath(image) {
 }
 
 function formatPrice(price) {
-    return Number(price || 0).toFixed(2);
+    if (window.Street19Preferences?.formatMoney) {
+        return window.Street19Preferences.formatMoney(price);
+    }
+
+    return `$${Number(price || 0).toFixed(2)}`;
+}
+
+function saveOrders() {
+    localStorage.setItem('street19_orders', JSON.stringify(orders));
+}
+
+function getOrderStatus(order) {
+    const status = order.adminStatus || order.status || 'Confirmed';
+    return orderStatusAliases[status] || 'new';
+}
+
+function getOrderStatusLabel(order) {
+    return orderStatusLabels[getOrderStatus(order)] || order.status || 'Confirmed';
+}
+
+function canCancelOrder(order) {
+    const status = getOrderStatus(order);
+    return status !== 'cancelled' && status !== 'delivered';
+}
+
+function cancelOrder(orderId) {
+    const order = orders.find(item => String(item.id) === String(orderId));
+
+    if (!order || !canCancelOrder(order)) {
+        return;
+    }
+
+    order.status = 'Cancelled';
+    order.adminStatus = 'cancelled';
+    order.cancelledAt = new Date().toISOString();
+    saveOrders();
+    renderOrders();
+}
+
+function initOrderActions() {
+    const ordersList = document.getElementById('ordersList');
+    if (!ordersList) return;
+
+    ordersList.addEventListener('click', event => {
+        const cancelButton = event.target.closest('[data-cancel-order]');
+
+        if (!cancelButton || cancelButton.disabled) {
+            return;
+        }
+
+        cancelOrder(cancelButton.dataset.cancelOrder);
+    });
 }
 
 function initTabs() {
@@ -119,6 +214,9 @@ function renderOrders() {
     }
 
     orders.forEach(order => {
+        const orderStatus = getOrderStatus(order);
+        const isCancelled = orderStatus === 'cancelled';
+        const showCancelButton = canCancelOrder(order);
         const orderDate = new Date(order.date).toLocaleDateString('en-US', {
             month: 'long',
             day: 'numeric',
@@ -133,7 +231,7 @@ function renderOrders() {
                     ${item.size ? `<p>Size: ${escapeHtml(item.size)}</p>` : ''}
                     <p>Quantity: ${Number(item.quantity || 1)}</p>
                 </div>
-                <strong>$${formatPrice(Number(item.price || 0) * Number(item.quantity || 1))}</strong>
+                <strong data-price-usd="${Number(item.price || 0) * Number(item.quantity || 1)}">${formatPrice(Number(item.price || 0) * Number(item.quantity || 1))}</strong>
             </div>
         `).join('');
 
@@ -141,12 +239,23 @@ function renderOrders() {
             <article class="order-card">
                 <div class="order-card-head">
                     <span>${orderDate}</span>
-                    <strong>${escapeHtml(order.status || 'Confirmed')}</strong>
+                    <strong class="profile-order-status status-${orderStatus}">${escapeHtml(getOrderStatusLabel(order))}</strong>
                 </div>
                 <div class="order-products">${items}</div>
                 <div class="order-card-bottom">
                     <span>Order #${order.id}</span>
-                    <strong>$${formatPrice(order.total)}</strong>
+                    <div class="order-card-actions">
+                        ${showCancelButton ? `
+                            <button type="button" class="order-cancel-btn" data-cancel-order="${escapeHtml(order.id)}">
+                                Cancel order
+                            </button>
+                        ` : `
+                            <button type="button" class="order-cancel-btn ${isCancelled ? 'is-cancelled' : ''}" disabled>
+                                ${isCancelled ? 'Order cancelled' : 'Cancel closed'}
+                            </button>
+                        `}
+                        <strong data-price-usd="${Number(order.total || 0)}">${formatPrice(order.total)}</strong>
+                    </div>
                 </div>
             </article>
         `;

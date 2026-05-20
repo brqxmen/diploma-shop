@@ -20,6 +20,7 @@ public class CustomerProfile {
     @Column(nullable = false, unique = true)
     private String email;
 
+    private Boolean emailVerified = false;
     private Boolean emailOffers = false;
     private String address;
 

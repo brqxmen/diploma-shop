@@ -2,9 +2,11 @@ package com.example.diploma_shop.controllers;
 
 import com.example.diploma_shop.module.Subscriber;
 import com.example.diploma_shop.repositories.SubscriberRepository;
+import com.example.diploma_shop.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -14,6 +16,9 @@ public class MainController {
 
     @Autowired
     private SubscriberRepository subscriberRepository;
+
+    @Autowired
+    private EventService eventService;
 
     @GetMapping("/")
     public String index() {
@@ -31,7 +36,9 @@ public class MainController {
     }
 
     @GetMapping("/events")
-    public String events() {
+    public String events(Model model) {
+        model.addAttribute("comingEvents", eventService.getComingEvents());
+        model.addAttribute("archiveEvents", eventService.getArchiveEvents());
         return "events";
     }
 

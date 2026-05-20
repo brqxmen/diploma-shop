@@ -1,10 +1,19 @@
 let cart = JSON.parse(localStorage.getItem('street19_cart')) || [];
 
 document.addEventListener('DOMContentLoaded', function () {
+    initCartBackButton();
     renderCartPage();
-    initSubscribeForm();
     initCheckout();
+    checkLoginStatus();
 });
+
+function checkLoginStatus() {
+    const profileId = localStorage.getItem('street19_profile_id');
+    const loginHint = document.querySelector('.checkout-login');
+    if (loginHint && profileId) {
+        loginHint.style.display = 'none';
+    }
+}
 
 function saveCart() {
     localStorage.setItem('street19_cart', JSON.stringify(cart));
@@ -24,7 +33,36 @@ function normalizeImagePath(image) {
 }
 
 function formatPrice(price) {
-    return Number(price || 0).toFixed(2);
+    if (window.Street19Preferences?.formatMoney) {
+        return window.Street19Preferences.formatMoney(price);
+    }
+
+    return `$${Number(price || 0).toFixed(2)}`;
+}
+
+function getTranslatedText(key, fallback) {
+    return window.Street19Preferences?.t?.(key, fallback) || fallback;
+}
+
+function initCartBackButton() {
+    const backButton = document.getElementById('cartBackButton');
+    if (!backButton) return;
+
+    backButton.addEventListener('click', event => {
+        event.preventDefault();
+
+        try {
+            const referrer = document.referrer ? new URL(document.referrer) : null;
+            if (referrer?.origin === window.location.origin && referrer.pathname !== window.location.pathname) {
+                window.history.back();
+                return;
+            }
+        } catch (err) {
+            // Use the fallback link below when the browser does not expose a safe referrer.
+        }
+
+        window.location.href = backButton.getAttribute('href') || '/shop';
+    });
 }
 
 function changePageQuantity(index, value) {
@@ -54,22 +92,61 @@ function initCheckout() {
     checkoutButton.addEventListener('click', () => {
         if (cart.length === 0) return;
 
-        const orders = JSON.parse(localStorage.getItem('street19_orders')) || [];
-        const total = cart.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 1), 0);
+        if (!window.Street19Checkout) {
+            completeCheckout(cart);
+            window.location.href = '/profile/orders';
+            return;
+        }
 
-        orders.unshift({
-            id: Date.now(),
-            date: new Date().toISOString(),
-            status: 'Confirmed',
-            total,
-            items: cart
+        window.Street19Checkout.open({
+            title: 'Checkout',
+            submitLabel: 'PAY ORDER',
+            items: cart,
+            onSuccess: ({ items, customer }) => {
+                const order = completeCheckout(items, customer);
+                return { orderId: order.id };
+            }
         });
-
-        localStorage.setItem('street19_orders', JSON.stringify(orders));
-        cart = [];
-        saveCart();
-        window.location.href = '/profile/orders';
     });
+}
+
+function completeCheckout(items, customer) {
+    const order = window.Street19Checkout
+        ? window.Street19Checkout.createOrder(items, customer)
+        : createFallbackOrder(items, customer);
+
+    cart = [];
+    saveCart();
+    renderCartPage();
+
+    return order;
+}
+
+function createFallbackOrder(items, customer = {}) {
+    const orders = JSON.parse(localStorage.getItem('street19_orders')) || [];
+    const orderItems = items.map(item => ({
+        ...item,
+        quantity: Math.max(1, Number(item.quantity || 1))
+    }));
+    const total = orderItems.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 1), 0);
+    const name = (customer.name || customer.customerName || 'Demo customer').trim();
+    const contact = (customer.email || customer.contact || 'demo@street19.local').trim();
+    const order = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        status: 'Confirmed',
+        adminStatus: 'new',
+        customerName: name,
+        contact,
+        email: contact,
+        total,
+        items: orderItems
+    };
+
+    orders.unshift(order);
+    localStorage.setItem('street19_orders', JSON.stringify(orders));
+
+    return order;
 }
 
 function renderCartPage() {
@@ -80,8 +157,9 @@ function renderCartPage() {
     itemsContainer.innerHTML = '';
 
     if (cart.length === 0) {
-        itemsContainer.innerHTML = '<p class="cart-empty" style=" font-width : ">Your cart is empty</p>';
-        subtotalElement.textContent = '$0.00';
+        itemsContainer.innerHTML = `<p class="cart-empty">${getTranslatedText('cart.empty', 'Your cart is empty')}</p>`;
+        subtotalElement.dataset.priceUsd = '0';
+        subtotalElement.textContent = formatPrice(0);
         return;
     }
 
@@ -118,7 +196,7 @@ function renderCartPage() {
                         <span>${quantity}</span>
                         <button type="button" onclick="changePageQuantity(${index}, -1)">-</button>
                     </div>
-                    <strong>$${formatPrice(itemTotal)} USD</strong>
+                    <strong data-price-usd="${itemTotal}">${formatPrice(itemTotal)}</strong>
                 </div>
             </div>
         `;
@@ -126,30 +204,6 @@ function renderCartPage() {
         itemsContainer.appendChild(row);
     });
 
-    subtotalElement.textContent = `$${formatPrice(subtotal)}`;
-}
-
-function initSubscribeForm() {
-    const subscribeForm = document.getElementById('subscribeForm');
-    const subscribeMsg = document.getElementById('subscribeMsg');
-
-    if (!subscribeForm) return;
-
-    subscribeForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('userEmail').value;
-
-        try {
-            const response = await fetch('/subscribe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'email=' + encodeURIComponent(email)
-            });
-            const data = await response.json();
-            if (subscribeMsg) subscribeMsg.textContent = data.message;
-            if (response.ok) subscribeForm.reset();
-        } catch (err) {
-            if (subscribeMsg) subscribeMsg.textContent = 'Something went wrong.';
-        }
-    });
+    subtotalElement.dataset.priceUsd = String(subtotal);
+    subtotalElement.textContent = formatPrice(subtotal);
 }

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin — Products</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+
+<aside class="admin-sidebar">
+    <div class="admin-logo">STREET 19<span>admin</span></div>
+    <nav class="admin-nav">
+        <a th:href="@{/admin}" class="admin-nav-link">📊 Dashboard</a>
+        <a th:href="@{/admin/products}" class="admin-nav-link active">📦 Products</a>
+        <a th:href="@{/admin/events}" class="admin-nav-link">📅 Events</a>
+        <a th:href="@{/admin/orders}" class="admin-nav-link">Orders</a>
+        <a th:href="@{/admin/clients}" class="admin-nav-link">👥 Clients</a>
+        <a th:href="@{/admin/subscribers}" class="admin-nav-link">📧 Subscribers</a>
+    </nav>
+    <a th:href="@{/}" class="admin-back-link">← Back to site</a>
+</aside>
+
+<main class="admin-main">
+    <div class="admin-header">
+        <h1>Products</h1>
+        <button class="admin-btn-primary" onclick="openProductModal(null)">+ Add product</button>
+    </div>
+
+    <div class="admin-table-wrap">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Brand</th>
+                    <th>Type</th>
+                    <th>Color</th>
+                    <th>Price</th>
+                    <th>Bonus price</th>
+                    <th>Size</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${products}">
+                    <td th:text="${p.id}"></td>
+                    <td>
+                        <img th:src="${p.imagePath}" th:alt="${p.name}"
+                             class="admin-thumb"
+                             onerror="this.style.display='none'">
+                    </td>
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${p.category}"></td>
+                    <td th:text="${p.brand != null && !p.brand.isBlank() ? p.brand : '-'}"></td>
+                    <td th:text="${p.productType != null && !p.productType.isBlank() ? p.productType : '-'}"></td>
+                    <td th:text="${p.color}"></td>
+                    <td th:text="${'$' + p.price}"></td>
+                    <td th:text="${p.bonusPrice != null && p.bonusPrice > 0 ? '$' + p.bonusPrice : '-'}"></td>
+                    <td th:text="${p.size}"></td>
+                    <td>
+                        <button class="admin-btn-edit"
+                                th:data-id="${p.id}"
+                                th:data-name="${p.name}"
+                                th:data-price="${p.price}"
+                                th:data-bonus-price="${p.bonusPrice}"
+                                th:data-image="${p.imageName}"
+                                th:data-size="${p.size}"
+                                th:data-category="${p.category}"
+                                th:data-brand="${p.brand}"
+                                th:data-product-type="${p.productType}"
+                                th:data-color="${p.color}"
+                                th:data-gallery-images="${p.galleryImages}"
+                                th:data-description="${p.description}"
+                                onclick="openProductModal(this.dataset)">
+                            Edit
+                        </button>
+                        <button class="admin-btn-delete"
+                                th:data-id="${p.id}"
+                                onclick="deleteProduct(this.dataset.id)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Модалка товара -->
+<div class="admin-modal-backdrop" id="productModalBackdrop">
+    <div class="admin-modal admin-modal-wide">
+        <div class="admin-modal-header">
+            <h2 id="productModalTitle">Add product</h2>
+            <button class="admin-modal-close" onclick="closeProductModal()">×</button>
+        </div>
+        <form id="productForm" class="admin-form">
+            <input type="hidden" id="productId">
+            <div class="admin-form-row">
+                <label>Brand</label>
+                <input type="text" id="productBrand" list="productBrandList" placeholder="e.g. Lakai, Bones, Habitat">
+                <datalist id="productBrandList">
+                    <option value="Lakai"></option>
+                    <option value="Footwork"></option>
+                    <option value="Bones"></option>
+                    <option value="Habitat"></option>
+                    <option value="HABITAT X PINK FLOYD"></option>
+                    <option value="Aura"></option>
+                    <option value="T-Tool"></option>
+                </datalist>
+                <span class="admin-form-hint">Optional. Leave empty for unbranded items; they will not appear in the Brands filter.</span>
+            </div>
+            <div class="admin-form-row">
+                <label>Product name</label>
+                <input type="text" id="productName" placeholder="e.g. Conrad - Elite Black Gum Suede" required>
+            </div>
+            <div class="admin-form-row">
+                <label>Price ($)</label>
+                <input type="number" id="productPrice" step="0.01" required>
+            </div>
+            <div class="admin-form-row">
+                <label>Bonus price ($)</label>
+                <input type="number" id="productBonusPrice" step="0.01" min="0" placeholder="Optional">
+                <span class="admin-form-hint">Optional. If filled, this price is shown and used in the cart.</span>
+            </div>
+            <div class="admin-form-row">
+                <label>Category</label>
+                <select id="productCategory">
+                    <option value="Clothes">Clothes</option>
+                    <option value="Skateboarding">Skateboarding</option>
+                    <option value="Accesses">Accesses</option>
+                </select>
+            </div>
+            <div class="admin-form-row">
+                <label>Product type</label>
+                <input type="text" id="productType" list="productTypeList" placeholder="e.g. Shoes, Griptape, Bearings" required>
+                <datalist id="productTypeList">
+                    <option value="Shoes"></option>
+                    <option value="T-shirt"></option>
+                    <option value="Hat"></option>
+                    <option value="Deck"></option>
+                    <option value="Griptape"></option>
+                    <option value="Bearings"></option>
+                    <option value="Tool"></option>
+                </datalist>
+                <span class="admin-form-hint">After choosing a brand, this becomes the second filter level.</span>
+            </div>
+            <div class="admin-form-row">
+                <label>Color</label>
+                <input type="text" id="productColor" placeholder="e.g. Purple or #a96ad2">
+            </div>
+            <div class="admin-form-row">
+                <label>Size</label>
+                <input type="text" id="productSize" placeholder="e.g. S, M, L, XL, XXL">
+            </div>
+            <div class="admin-form-row">
+                <label>Main image name</label>
+                <input type="text" id="productImage" placeholder="e.g. product1.jpg">
+                <span class="admin-form-hint">File must be in /static/images/</span>
+            </div>
+            <div class="admin-form-row">
+                <label>Gallery images</label>
+                <textarea id="productGalleryImages" rows="3" placeholder="e.g. product-detail-1.jpg, product-detail-2.jpg"></textarea>
+                <span class="admin-form-hint">Comma or new-line separated image names from /static/images/</span>
+            </div>
+            <div class="admin-form-row">
+                <label>Description</label>
+                <textarea id="productDescription" rows="3" placeholder="Short product description"></textarea>
+            </div>
+            <div class="admin-form-actions">
+                <button type="button" class="admin-btn-secondary" onclick="closeProductModal()">Cancel</button>
+                <button type="submit" class="admin-btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/admin-products.js(v='20260519-2')}"></script>
+</body>
+</html>

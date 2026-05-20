@@ -13,12 +13,13 @@ public class CustomerProfileService {
         this.customerProfileRepository = customerProfileRepository;
     }
 
-    public CustomerProfile register(String email, Boolean emailOffers) {
+    public CustomerProfile register(String email, Boolean emailOffers, Boolean emailVerified) {
         CustomerProfile profile = customerProfileRepository.findByEmailIgnoreCase(email)
                 .orElseGet(CustomerProfile::new);
 
         profile.setEmail(email);
         profile.setEmailOffers(Boolean.TRUE.equals(emailOffers));
+        profile.setEmailVerified(Boolean.TRUE.equals(emailVerified));
 
         return customerProfileRepository.save(profile);
     }

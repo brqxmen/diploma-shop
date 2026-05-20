@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Orders</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css(v='20260519-1')}">
+</head>
+<body class="admin-body">
+
+<aside class="admin-sidebar">
+    <div class="admin-logo">STREET 19<span>admin</span></div>
+    <nav class="admin-nav">
+        <a th:href="@{/admin}" class="admin-nav-link">Dashboard</a>
+        <a th:href="@{/admin/products}" class="admin-nav-link">Products</a>
+        <a th:href="@{/admin/events}" class="admin-nav-link">Events</a>
+        <a th:href="@{/admin/orders}" class="admin-nav-link active">Orders</a>
+        <a th:href="@{/admin/clients}" class="admin-nav-link">Clients</a>
+        <a th:href="@{/admin/subscribers}" class="admin-nav-link">Subscribers</a>
+    </nav>
+    <a th:href="@{/}" class="admin-back-link">Back to site</a>
+</aside>
+
+<main class="admin-main">
+    <div class="admin-header admin-header-stacked">
+        <div>
+            <span class="admin-page-eyebrow">Demo workspace</span>
+            <h1>Orders</h1>
+            <p class="admin-page-note">Test data only. No real customers, payments, or database connection.</p>
+        </div>
+        <span class="admin-count" id="ordersTotalCount">0 demo orders</span>
+    </div>
+
+    <section class="orders-summary-grid" aria-label="Order status summary">
+        <article class="orders-summary-card">
+            <span>Active</span>
+            <strong id="ordersActiveCount">0</strong>
+        </article>
+        <article class="orders-summary-card">
+            <span>Delivered</span>
+            <strong id="ordersDeliveredCount">0</strong>
+        </article>
+        <article class="orders-summary-card">
+            <span>Cancelled</span>
+            <strong id="ordersCancelledCount">0</strong>
+        </article>
+    </section>
+
+    <div class="admin-table-wrap orders-table-wrap">
+        <table class="admin-table orders-table">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>User</th>
+                    <th>Contact</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Change status</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+        </table>
+    </div>
+</main>
+
+<script th:src="@{/js/admin-orders.js(v='20260519-2')}"></script>
+</body>
+</html>

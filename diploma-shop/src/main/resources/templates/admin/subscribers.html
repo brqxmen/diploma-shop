@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin — Subscribers</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+
+<aside class="admin-sidebar">
+    <div class="admin-logo">STREET 19<span>admin</span></div>
+    <nav class="admin-nav">
+        <a th:href="@{/admin}" class="admin-nav-link">📊 Dashboard</a>
+        <a th:href="@{/admin/products}" class="admin-nav-link">📦 Products</a>
+        <a th:href="@{/admin/events}" class="admin-nav-link">📅 Events</a>
+        <a th:href="@{/admin/orders}" class="admin-nav-link">Orders</a>
+        <a th:href="@{/admin/clients}" class="admin-nav-link">👥 Clients</a>
+        <a th:href="@{/admin/subscribers}" class="admin-nav-link active">📧 Subscribers</a>
+    </nav>
+    <a th:href="@{/}" class="admin-back-link">← Back to site</a>
+</aside>
+
+<main class="admin-main">
+    <div class="admin-header">
+        <h1>Subscribers</h1>
+        <span class="admin-count" th:text="${#lists.size(subscribers)} + ' total'"></span>
+    </div>
+
+    <div class="admin-table-wrap">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="s : ${subscribers}">
+                    <td th:text="${s.id}"></td>
+                    <td th:text="${s.email}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+</body>
+</html>

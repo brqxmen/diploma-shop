@@ -7,7 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/shop-style.css}">
+    <link rel="stylesheet" th:href="@{/css/theme.css(v='20260518-1')}">
+    <link rel="stylesheet" th:href="@{/css/shop-style.css(v='20260519-5')}">
+    <link rel="stylesheet" th:href="@{/css/ui-polish.css(v='20260518-3')}">
 </head>
 <body class="profile-body">
 
@@ -87,6 +89,7 @@
     </section>
 
     <a th:href="@{/shop}" class="profile-back">Back to shop</a>
+    <button type="button" id="logoutBtn" class="profile-logout-btn">Sign out</button>
 </main>
 
 <div class="profile-modal" id="profileModal">
@@ -111,7 +114,8 @@
     </div>
 </div>
 
-<script th:src="@{/js/profile-page.js}"></script>
+<script th:src="@{/js/profile-page.js(v='20260519-2')}"></script>
+<script th:src="@{/js/preferences.js(v='20260518-6')}"></script>
 <script th:src="@{/js/header-actions.js}"></script>
 </body>
 </html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Street 19 - Profile</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/theme.css(v='20260518-1')}">
+    <link rel="stylesheet" th:href="@{/css/culture.css(v='20260519-1')}">
+    <link rel="stylesheet" th:href="@{/css/ui-polish.css(v='20260518-3')}">
+</head>
+<body>
+<div class="main-header">
+    <div class="header-container">
+        <div class="logo">
+            <a th:href="@{/}">
+                <img th:src="@{/images/street 19.svg}" alt="logo">
+            </a>
+        </div>
+
+        <div class="nav-menu">
+            <ul>
+                <li><a th:href="@{/shop}" class="nav-link bg"><span>shop</span></a></li>
+                <li><a th:href="@{/culture}" class="nav-link bg"><span>culture</span></a></li>
+                <li><a th:href="@{/learn}" class="nav-link bg"><span>learn</span></a></li>
+                <li><a th:href="@{/events}" class="nav-link bg"><span>events</span></a></li>
+            </ul>
+        </div>
+
+        <div class="header-icon">
+            <a href="#" class="header-search-toggle">
+                <img th:src="@{/images/Vector-1.svg}" alt="search" class="nav-icon">
+            </a>
+            <a th:href="@{/cart}">
+                <img th:src="@{/images/Vector.svg}" alt="cart" class="nav-icon">
+            </a>
+            <a th:href="@{/profile}">
+                <img th:src="@{/images/Vector-2.svg}" alt="profile" class="nav-icon">
+            </a>
+            <form class="header-search-form" th:action="@{/shop}" method="get">
+                <label>
+                    <input type="text" name="search" placeholder="Search...">
+                </label>
+            </form>
+        </div>
+    </div>
+</div>
+
+<section class="skate-section">
+    <div class="skate-container">
+
+        <div class="main-image-wrapper">
+            <img th:src="@{/images/flyskater.jpg}" alt="Skateboarder doing a trick" class="main-image">
+        </div>
+
+        <div class="info-card">
+            <span class="card-subtitle">ABOUT SKATEBOARDING</span>
+            <h2 class="card-title">THE <span class="highlight">GENESIS</span> OF CHAOS</h2>
+            <p class="card-text">
+                To know where we’re rolling, we have to remember where it all began.
+                Skateboarding wasn’t born in pristine Californian parks — it broke out of
+                garages and the bruises of those who saw pavement not just as a road, but as
+                a challenge. It all started with the first spark, when a standard trainer fell into
+                the hands of those who refused to play by the rules.
+            </p>
+            <div class="card-line"></div>
+        </div>
+
+        <div class="circle-image-wrapper">
+            <img th:src="@{/images/skatetrickk.jpg}" alt="Skater grind" class="circle-image">
+        </div>
+
+    </div>
+</section>
+
+<section class="history-section">
+    <div class="history-container">
+
+        <div class="history-text-block">
+            <h3 class="history-subtitle">THE FIRST SPARK.</h3>
+            <p class="history-text">
+                The forefather of the board was the "skeeler" — a metal three-wheeled platform meant for land-skiing with poles. The real magic happened when kids ditched the poles and one of the rollers to ride a single platform instead. This moment of creative chaos became the true zero point of skateboarding history.
+            </p>
+        </div>
+
+        <div class="history-visual-block">
+
+            <div class="year-layers">
+                <span class="year-back">1920</span>
+                <span class="year-middle">1920</span>
+                <span class="year-front">1920</span>
+            </div>
+
+            <div class="history-image-wrapper">
+                <img th:src="@{/images/sandali.jpg}" alt="Skeeler 1920" class="history-image">
+            </div>
+
+            <div class="tape-decor">
+                <img th:src="@{/images/star.jpg}" alt="Tape decor" class="tape-image">
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="core-section">
+    <div class="core-container">
+
+        <div class="core-header">
+            <h2 class="title-line-1">STRIPPED TO</h2>
+            <h2 class="title-line-2">THE CORE</h2>
+        </div>
+
+        <div class="core-content">
+
+            <div class="core-image-wrapper">
+                <img th:src="@{/images/skooterskate.jpg}"  alt="1930s Skooter Skate" class="core-image">
+            </div>
+
+            <div class="core-text-block">
+                <p class="core-text">
+                    The <strong class="highlight-year">1930s</strong> Skooter Skate was an engineering attempt to tame speed with handlebars and an aluminum deck. However, the revolution moved from workshops to backyards as kids began stripping away everything unnecessary. The modern skateboard is essentially a scooter, freed from everything that stood in its way.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="timeline-section">
+
+    <div class="timeline-row">
+        <div class="timeline-col visual-col">
+            <div class="timeline-image-wrapper">
+                <img th:src="@{/images/rollerderby.jpg}" alt="1950s Roller Derby Board" class="timeline-image">
+            </div>
+        </div>
+        <div class="timeline-col text-col">
+            <h2 class="timeline-year">1950</h2>
+            <p class="timeline-text">
+                While brands launched mass production, street culture thrived on DIY decks. The ultimate catalyst was the calm on the coast; surfers took to the pavement to "surf the concrete" when the waves were flat. This era linked the two elements forever, giving skateboarding its modern form and global recognition.
+            </p>
+        </div>
+    </div>
+
+    <div class="timeline-row row-reverse">
+        <div class="timeline-col visual-col">
+            <div class="timeline-image-wrapper gap-photo">
+                <img th:src="@{/images/1960.jpg}" alt="1960s Skatepark" class="timeline-image">
+            </div>
+        </div>
+        <div class="timeline-col text-col">
+            <h2 class="timeline-year">1960</h2>
+            <p class="timeline-text">
+                In 1962, kicktails arrived in Hollywood, and by 1965, the craze peaked with 50 million decks sold and the opening of Surf City, the first skatepark. But the triumph was short-lived. Low-quality clay and steel wheels led to injuries and city bans. By 1966, the market collapsed, and skateboarding retreated into the underground.
+            </p>
+        </div>
+    </div>
+
+</section>
+
+<section class="present-section">
+    <div class="present-container">
+
+        <!-- Заголовок эпохи -->
+        <div class="present-header">
+            <h2 class="present-year">1970-PRESENT</h2>
+        </div>
+
+        <!-- Ступенчатый текст -->
+        <div class="present-content">
+            <p class="step-1">
+                URETHANE WHEELS CHANGED EVERYTHING, PROVIDING GRIP AND SPEED. DURING
+                THE CALIFORNIA DROUGHT, THE Z-BOYS DIVED INTO EMPTY POOLS, INVENTING VERT
+                SKATING. BY
+            </p>
+
+            <p class="step-2">
+                THE 80S, TONY HAWK AND VHS TAPES TOOK THE SPORT GLOBAL, EVOLVING THE BOARD
+                INTO THE MODERN DOUBLE-KICK DESIGN. SKATING HIT THE PAVEMENT, TURNING LEDGES
+                AND
+            </p>
+
+            <p class="step-3">
+                RAILS INTO A CANVAS. FROM BACKYARD POOLS TO THE OLYMPIC GAMES, IT IS NOW
+                A TECH-DRIVEN GLOBAL ART FORM. YET, THE CORE REMAINS: YOU, THE BOARD, AND
+                THE SOUND OF WHEELS HITTING THE CONCRETE.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<section class="gallery-section">
+    <div class="gallery-container">
+        <div class="gallery-item item-1">
+            <img th:src="@{/images/jeyadams.jpg}" alt="Jey Adams">
+            <div class="image-text">Jey Adams in 1975</div>
+        </div>
+        <div class="gallery-item item-2">
+            <img th:src="@{/images/tonyhawk.jpg}" alt="Tony Hawk">
+            <div class="image-text">Tony Hawk in 1988</div>
+        </div>
+        <div class="gallery-item item-3">
+            <img th:src="@{/images/markgonz.jpg}" alt="Mark Gonz">
+            <div class="image-text">Mark Gonzales in 1987</div>
+        </div>
+        <div class="gallery-item item-4">
+            <img th:src="@{/images/robdyrdek.jpg}" alt="Rob Dyrdek">
+            <div class="image-text">Rob Dyrdek in 1992</div>
+        </div>
+        <div class="gallery-item item-5">
+            <img th:src="@{/images/elissasteamer.jpg}" alt="Elissa Steamer">
+            <div class="image-text">Elissa Steamer in 1997</div>
+        </div>
+        <div class="gallery-item item-6">
+            <img th:src="@{/images/rodneymullen.jpg}" alt="Rodney Mullen">
+            <div class="image-text">Rodney Mullen in 2016 for Vogue</div>
+        </div>
+        <div class="gallery-item item-7">
+            <img th:src="@{/images/ryansheckler.jpg}" alt="Ryan Sheckler">
+            <div class="image-text">Ryan Sheckler in 2003</div>
+        </div>
+        <div class="gallery-item item-8">
+            <img th:src="@{/images/bammargera.jpg}" alt="Bam Margera">
+            <div class="image-text">Bam Margera in 1999</div>
+        </div>
+    </div>
+</section>
+
+<section class="film-reel-section">
+      <div class="reel-title-container">
+        <img th:src="@{/images/Film reel-warp.svg}" alt="FILM REEL" class="svg-title">
+    </div>
+
+    <div class="main-display">
+        <div class="film-info" id="current-film-info">
+            <div class="info-header">
+                <span class="film-number" id="info-num">01</span>
+                <div class="title-meta">
+                    <h2 id="info-title">Mid '90s</h2>
+                    <p id="info-genre">Genre: Coming-of-age</p>
+                </div>
+            </div>
+
+            <div class="stars" id="info-stars">
+                ★★★★★
+            </div>
+
+            <p class="description" id="info-desc">
+                Los Angeles, the 1990s. 13-year-old Stevie is supposed to be thinking about his future...
+            </p>
+
+            <a href="#" id="watch-btn" class="watch-button" target="_blank">WATCH</a>
+        </div>
+
+        <div class="slider-wrapper">
+            <div class="slider-container" id="slider-container">
+                <div class="posters-track" id="posters-track">
+                    <div class="poster-item active" data-id="0">
+                        <span class="poster-num">01</span>
+                        <img th:src="@{/images/film1.jpg}" alt="Back to the Future (1985)">
+                    </div>
+                    <div class="poster-item" data-id="1">
+                        <span class="poster-num">02</span>
+                        <img th:src="@{/images/film2.jpg}" alt="Kids (1995)">
+                    </div>
+                    <div class="poster-item" data-id="2">
+                        <span class="poster-num">03</span>
+                        <img th:src="@{/images/film3.jpg}" alt="Dogtown and Z-Boys (2001)">
+                    </div>
+                    <div class="poster-item" data-id="3">
+                        <span class="poster-num">04</span>
+                        <img th:src="@{/images/film4.jpg}" alt="Paranoid Park (2007)">
+                    </div>
+                    <div class="poster-item" data-id="4">
+                        <span class="poster-num">05</span>
+                        <img th:src="@{/images/film5.jpg}" alt="Dragonslayer (2011)">
+                    </div>
+                    <div class="poster-item" data-id="5">
+                        <span class="poster-num">06</span>
+                        <img th:src="@{/images/film6.jpg}" alt="Bones Brigade: An Autobiography (2012)">
+                    </div>
+                    <div class="poster-item" data-id="6">
+                        <span class="poster-num">07</span>
+                        <img th:src="@{/images/film7.jpg}" alt="Skate Kitchen (2018)">
+                    </div>
+                    <div class="poster-item" data-id="7">
+                        <span class="poster-num">08</span>
+                        <img th:src="@{/images/film8.jpg}" alt="Mid 90's (2018)">
+                    </div>
+                    <div class="poster-item" data-id="8">
+                        <span class="poster-num">09</span>
+                        <img th:src="@{/images/film9.jpg}" alt="SK8 the Infinity (2021)">
+                    </div>
+                    <div class="poster-item" data-id="9">
+                        <span class="poster-num">10</span>
+                        <img th:src="@{/images/film10.jpg}" alt="Street Dreams (2009)">
+                    </div>
+                </div>
+            </div>
+            <div class="slider-arrows">
+                <button class="slider-arrow arrow-left" id="arrow-left" aria-label="Previous">&#8592;</button>
+                <button class="slider-arrow arrow-right" id="arrow-right" aria-label="Next">&#8594;</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-subscribe">
+                <h3>Sign up for updates</h3>
+                <form class="subscribeForm" id="subscribeForm">
+                    <input type="email" id="userEmail" placeholder="E-mail" class="footer-input" required>
+                    <button type="submit" class="footer-submit">SUBSCRIBE</button>
+                </form>
+                <p id="subscribeMsg" class="subscribe-message"></p>
+            </div>
+
+            <div class="footer-links">
+                <h4>MORE INFO</h4>
+                <ul>
+                    <li><a href="https://t.me/bmnknz" target="_blank">Contact</a></li>
+                    <li><a href="https://t.me/bmnknz" target="_blank">Help Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-socials">
+                <div class="social-icons">
+                    <a href="https://instagram.com" target="_blank">
+                        <img th:src="@{/images/instagram.svg}" alt="Instagram">
+                    </a>
+                    <a href="https://youtube.com" target="_blank">
+                        <img th:src="@{/images/youtube.svg}" alt="YouTube">
+                    </a>
+                    <a href="https://tiktok.com" target="_blank">
+                        <img th:src="@{/images/tiktok.svg}" alt="TikTok">
+                    </a>
+                </div>
+
+                <div class="currency-selector" id="currencySelector">
+                    <button class="currency-btn" id="currencyBtn">
+                        <span id="currencyLabel">KAZAKHSTAN (USD $)</span>
+                        <span class="currency-arrow">∨</span>
+                    </button>
+                    <ul class="currency-dropdown" id="currencyDropdown">
+                        <li data-flag="🇰🇿" data-label="KAZAKHSTAN (USD $)">🇰🇿 KAZAKHSTAN (USD $)</li>
+                        <li data-flag="🇷🇺" data-label="RUSSIA (RUB ₽)">🇷🇺 RUSSIA (RUB ₽)</li>
+                        <li data-flag="🇪🇺" data-label="EUROPE (EUR €)">🇪🇺 EUROPE (EUR €)</li>
+                        <li data-flag="🇺🇸" data-label="USA (USD $)">🇺🇸 USA (USD $)</li>
+                        <li data-flag="🇬🇧" data-label="UK (GBP £)">🇬🇧 UK (GBP £)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-copyright">
+                © 2026 - STREET 19
+            </div>
+
+            <div class="footer-payment">
+                <a href="https://pay.google.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Google_Pay_Logo.svg}" alt="GPay">
+                </a>
+                <a href="https://mastercard.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/ma_symbol.svg}" alt="Mastercard">
+                </a>
+                <a href="https://visa.com" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Visa.svg}" alt="Visa">
+                </a>
+                <a href="https://apple.com/apple-pay" target="_blank" class="payment-link">
+                    <img th:src="@{/images/Applepay.svg}" alt="ApplePay">
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+<script th:src="@{/js/culture.js(v='20260519-1')}"></script>
+<script th:src="@{/js/preferences.js(v='20260518-6')}"></script>
+</body>
+</html>

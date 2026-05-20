@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin — Dashboard</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+
+<aside class="admin-sidebar">
+    <div class="admin-logo">STREET 19<span>admin</span></div>
+    <nav class="admin-nav">
+        <a th:href="@{/admin}" class="admin-nav-link active">📊 Dashboard</a>
+        <a th:href="@{/admin/products}" class="admin-nav-link">📦 Products</a>
+        <a th:href="@{/admin/events}" class="admin-nav-link">📅 Events</a>
+        <a th:href="@{/admin/orders}" class="admin-nav-link">Orders</a>
+        <a th:href="@{/admin/clients}" class="admin-nav-link">👥 Clients</a>
+        <a th:href="@{/admin/subscribers}" class="admin-nav-link">📧 Subscribers</a>
+    </nav>
+    <a th:href="@{/}" class="admin-back-link">← Back to site</a>
+</aside>
+
+<main class="admin-main">
+    <div class="admin-header">
+        <h1>Dashboard</h1>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-icon">📦</span>
+            <div class="stat-info">
+                <span class="stat-value" th:text="${totalProducts}">0</span>
+                <span class="stat-label">Products</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-icon">📅</span>
+            <div class="stat-info">
+                <span class="stat-value" th:text="${comingEvents}">0</span>
+                <span class="stat-label">Coming Events</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-icon">🗂</span>
+            <div class="stat-info">
+                <span class="stat-value" th:text="${archiveEvents}">0</span>
+                <span class="stat-label">Archive Events</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-icon">👥</span>
+            <div class="stat-info">
+                <span class="stat-value" th:text="${totalClients}">0</span>
+                <span class="stat-label">Clients</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-icon">📧</span>
+            <div class="stat-info">
+                <span class="stat-value" th:text="${totalSubscribers}">0</span>
+                <span class="stat-label">Subscribers</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-quick-links">
+        <h2>Quick actions</h2>
+        <div class="quick-links-row">
+            <a th:href="@{/admin/products}" class="quick-btn">+ Add product</a>
+            <a th:href="@{/admin/events}" class="quick-btn">+ Add event</a>
+            <a th:href="@{/admin/orders}" class="quick-btn">View demo orders</a>
+            <a th:href="@{/admin/clients}" class="quick-btn">View clients</a>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

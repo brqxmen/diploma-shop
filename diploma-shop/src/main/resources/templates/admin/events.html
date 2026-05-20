@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin — Events</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+
+<aside class="admin-sidebar">
+    <div class="admin-logo">STREET 19<span>admin</span></div>
+    <nav class="admin-nav">
+        <a th:href="@{/admin}" class="admin-nav-link">📊 Dashboard</a>
+        <a th:href="@{/admin/products}" class="admin-nav-link">📦 Products</a>
+        <a th:href="@{/admin/events}" class="admin-nav-link active">📅 Events</a>
+        <a th:href="@{/admin/orders}" class="admin-nav-link">Orders</a>
+        <a th:href="@{/admin/clients}" class="admin-nav-link">👥 Clients</a>
+        <a th:href="@{/admin/subscribers}" class="admin-nav-link">📧 Subscribers</a>
+    </nav>
+    <a th:href="@{/}" class="admin-back-link">← Back to site</a>
+</aside>
+
+<main class="admin-main">
+    <div class="admin-header">
+        <h1>Events</h1>
+        <button class="admin-btn-primary" onclick="openEventModal(null)">+ Add event</button>
+    </div>
+
+    <div class="admin-table-wrap">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="e : ${events}">
+                    <td th:text="${e.id}"></td>
+                    <td>
+                        <img th:src="${e.imageUrl}" th:alt="${e.title}"
+                             class="admin-thumb"
+                             onerror="this.style.display='none'">
+                    </td>
+                    <td th:text="${e.title}"></td>
+                    <td th:text="${#temporals.format(e.eventDate, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${e.location}"></td>
+                    <td>
+                        <span class="admin-badge"
+                              th:classappend="${e.eventDate.isAfter(#temporals.createNow())} ? ' badge-coming' : ' badge-archive'"
+                              th:text="${e.eventDate.isAfter(#temporals.createNow())} ? 'Coming' : 'Archive'">
+                        </span>
+                    </td>
+                    <td>
+                        <button class="admin-btn-edit"
+                                th:data-id="${e.id}"
+                                onclick="openEventModal(parseInt(this.dataset.id))">
+                            Edit
+                        </button>
+                        <button class="admin-btn-delete"
+                                th:data-id="${e.id}"
+                                onclick="deleteEvent(this.dataset.id)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Модалка события -->
+<div class="admin-modal-backdrop" id="eventModalBackdrop">
+    <div class="admin-modal admin-modal-wide">
+        <div class="admin-modal-header">
+            <h2 id="eventModalTitle">Add event</h2>
+            <button class="admin-modal-close" onclick="closeEventModal()">×</button>
+        </div>
+        <form id="eventForm" class="admin-form">
+            <input type="hidden" id="eventId">
+            <div class="admin-form-row">
+                <label>Title</label>
+                <input type="text" id="eventTitle" required>
+            </div>
+            <div class="admin-form-row">
+                <label>Short description (on card)</label>
+                <input type="text" id="eventDescription">
+            </div>
+            <div class="admin-form-row">
+                <label>Full details (in modal)</label>
+                <textarea id="eventDetails" rows="4"></textarea>
+            </div>
+            <div class="admin-form-row">
+                <label>Date & Time</label>
+                <input type="datetime-local" id="eventDate" required>
+            </div>
+            <div class="admin-form-row">
+                <label>Location</label>
+                <input type="text" id="eventLocation">
+            </div>
+            <div class="admin-form-row">
+                <label>Image URL</label>
+                <input type="text" id="eventImageUrl" placeholder="e.g. /images/event1.jpg">
+            </div>
+            <div class="admin-form-actions">
+                <button type="button" class="admin-btn-secondary" onclick="closeEventModal()">Cancel</button>
+                <button type="submit" class="admin-btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Данные событий для JS -->
+<script th:inline="javascript">
+    const eventsData = /*[[${events}]]*/ [];
+</script>
+<script th:src="@{/js/admin-events.js}"></script>
+</body>
+</html>

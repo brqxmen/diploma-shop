@@ -7,7 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/shop-style.css}">
+    <link rel="stylesheet" th:href="@{/css/theme.css(v='20260518-1')}">
+    <link rel="stylesheet" th:href="@{/css/shop-style.css(v='20260518-1')}">
+    <link rel="stylesheet" th:href="@{/css/ui-polish.css(v='20260518-3')}">
 </head>
 <body class="register-body">
 
@@ -17,23 +19,37 @@
             <img th:src="@{/images/street 19.svg}" alt="Street 19">
         </a>
 
-        <h1>Sign in</h1>
-        <p>Sign in or create an account</p>
+        <h1 data-i18n="register.title">Sign in</h1>
+        <p data-i18n="register.subtitle">Sign in or create an account</p>
 
         <form id="registerForm" class="register-form">
             <label for="registerEmail"></label>
             <input type="email" id="registerEmail" placeholder="Email" required>
 
-            <button type="submit">Continue</button>
+            <div class="register-code-row">
+                <input type="text"
+                       id="registerCode"
+                       placeholder="Verification code"
+                       inputmode="numeric"
+                       maxlength="6"
+                       autocomplete="one-time-code"
+                       disabled>
+                <button type="button" id="sendCodeBtn" data-i18n="register.sendCode">SEND CODE</button>
+            </div>
+
+            <p id="registerStatus" class="register-status" role="status" aria-live="polite"></p>
+
+            <button type="submit" id="registerSubmitBtn" data-i18n="register.continue">Continue</button>
 
             <label class="register-checkbox">
                 <input type="checkbox" id="registerOffers">
-                <span>Email me with news and offers</span>
+                <span data-i18n="register.offers">Email me with news and offers</span>
             </label>
         </form>
     </section>
 </main>
 
 <script th:src="@{/js/register-page.js}"></script>
+<script th:src="@{/js/preferences.js(v='20260518-6')}"></script>
 </body>
 </html>
