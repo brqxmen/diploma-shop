@@ -196,6 +196,42 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "STREET 19 Pop-up Zone",
                 "Visitors can test tools, bearings, griptape, and different deck sizes."
         ));
+
+        eventRepository.save(event(
+                "Spring Street Jam",
+                "A past street session with local riders, music, and mini contests.",
+                "21.03.jpg",
+                LocalDateTime.now().minusDays(86).withHour(17).withMinute(30),
+                "Almaty Downtown Spot",
+                "Archive event from the STREET 19 spring program."
+        ));
+
+        eventRepository.save(event(
+                "Beginner Skate Day",
+                "An open lesson for beginners with warm-up drills and first trick practice.",
+                "28.03.jpg",
+                LocalDateTime.now().minusDays(72).withHour(15).withMinute(0),
+                "STREET 19 Mini Ramp",
+                "Coaches helped new riders pick a stance, balance, and safer first lines."
+        ));
+
+        eventRepository.save(event(
+                "Community Park Session",
+                "A community meetup with shared boards, filming, and best line voting.",
+                "02.05.jpg",
+                LocalDateTime.now().minusDays(45).withHour(18).withMinute(0),
+                "Central Skate Park",
+                "Photos and highlights from one of the early summer archive sessions."
+        ));
+
+        eventRepository.save(event(
+                "Girls Skate Meetup",
+                "A supportive meetup for girls and young riders with trick coaching.",
+                "17.05.jpg",
+                LocalDateTime.now().minusDays(30).withHour(16).withMinute(30),
+                "STREET 19 Pop-up Zone",
+                "Archive event with beginner-friendly workshops and open practice."
+        ));
     }
 
     private Product product(String name,
