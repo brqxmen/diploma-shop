@@ -183,7 +183,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "STREET 19 Best Trick Session",
                 "Open skate session with a best trick contest and prizes from the shop.",
                 "21.06.jpg",
-                LocalDateTime.now().plusDays(14).withHour(18).withMinute(0),
+                LocalDateTime.of(2026, 6, 21, 18, 0),
                 "Almaty Skate Plaza",
                 "Registration opens one hour before the session. Demo event for the diploma project."
         ));
@@ -192,7 +192,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Deck Setup Workshop",
                 "A small workshop where beginners learn how to assemble and tune a skateboard.",
                 "30.08.jpg",
-                LocalDateTime.now().plusDays(30).withHour(16).withMinute(0),
+                LocalDateTime.of(2025, 8, 30, 16, 0),
                 "STREET 19 Pop-up Zone",
                 "Visitors can test tools, bearings, griptape, and different deck sizes."
         ));
@@ -201,7 +201,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Spring Street Jam",
                 "A past street session with local riders, music, and mini contests.",
                 "21.03.jpg",
-                LocalDateTime.now().minusDays(86).withHour(17).withMinute(30),
+                LocalDateTime.of(2025, 3, 21, 17, 30),
                 "Almaty Downtown Spot",
                 "Archive event from the STREET 19 spring program."
         ));
@@ -210,7 +210,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Beginner Skate Day",
                 "An open lesson for beginners with warm-up drills and first trick practice.",
                 "28.03.jpg",
-                LocalDateTime.now().minusDays(72).withHour(15).withMinute(0),
+                LocalDateTime.of(2025, 3, 28, 15, 0),
                 "STREET 19 Mini Ramp",
                 "Coaches helped new riders pick a stance, balance, and safer first lines."
         ));
@@ -219,7 +219,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Community Park Session",
                 "A community meetup with shared boards, filming, and best line voting.",
                 "02.05.jpg",
-                LocalDateTime.now().minusDays(45).withHour(18).withMinute(0),
+                LocalDateTime.of(2025, 5, 2, 18, 0),
                 "Central Skate Park",
                 "Photos and highlights from one of the early summer archive sessions."
         ));
@@ -228,7 +228,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Girls Skate Meetup",
                 "A supportive meetup for girls and young riders with trick coaching.",
                 "17.05.jpg",
-                LocalDateTime.now().minusDays(30).withHour(16).withMinute(30),
+                LocalDateTime.of(2025, 5, 17, 16, 30),
                 "STREET 19 Pop-up Zone",
                 "Archive event with beginner-friendly workshops and open practice."
         ));
