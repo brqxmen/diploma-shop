@@ -25,9 +25,6 @@ public class EventService {
         return eventRepository.findByEventDateLessThanOrderByEventDateDesc(LocalDateTime.now());
     }
 
-    // Каждый час проверяем — ничего дополнительно делать не нужно,
-    // разделение происходит динамически по дате прямо в запросах.
-    // Этот метод можно использовать для логирования или уведомлений.
     @Scheduled(cron = "0 0 * * * *")
     public void logArchivedEvents() {
         long count = getArchiveEvents().size();

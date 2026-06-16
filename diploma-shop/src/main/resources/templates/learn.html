@@ -13,47 +13,12 @@
 
     <link rel="stylesheet" th:href="@{/css/theme.css(v='20260518-1')}">
     <link rel="stylesheet" th:href="@{/css/learn.css(v='20260520-1')}">
-    <link rel="stylesheet" th:href="@{/css/ui-polish.css(v='20260520-1')}">
+    <link rel="stylesheet" th:href="@{/css/ui-polish.css(v='20260525-1')}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
-<div class="main-header">
-    <div class="header-container">
-        <div class="logo">
-            <a th:href="@{/}">
-                <img th:src="@{/images/street 19.svg}" alt="logo">
-            </a>
-        </div>
-
-        <div class="nav-menu">
-            <ul>
-                <li><a th:href="@{/shop}" class="nav-link bg"><span>shop</span></a></li>
-                <li><a th:href="@{/culture}" class="nav-link bg"><span>culture</span></a></li>
-                <li><a th:href="@{/learn}" class="nav-link bg"><span>learn</span></a></li>
-                <li><a th:href="@{/events}" class="nav-link bg"><span>events</span></a></li>
-            </ul>
-        </div>
-
-        <div class="header-icon">
-            <a href="#" class="header-search-toggle">
-                <img th:src="@{/images/Vector-1.svg}" alt="search" class="nav-icon">
-            </a>
-            <a th:href="@{/cart}">
-                <img th:src="@{/images/Vector.svg}" alt="cart" class="nav-icon">
-            </a>
-            <a th:href="@{/profile}">
-                <img th:src="@{/images/Vector-2.svg}" alt="profile" class="nav-icon">
-            </a>
-            <form class="header-search-form" th:action="@{/shop}" method="get">
-                <label>
-                    <input type="text" name="search" placeholder="Search...">
-                </label>
-            </form>
-        </div>
-    </div>
-
-</div>
+<div th:replace="~{fragments/header :: mainHeader('', false)}"></div>
 <section class="manual-section">
     <div class="manual-container">
 

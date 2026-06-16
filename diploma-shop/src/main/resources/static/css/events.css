@@ -688,6 +688,13 @@ header {
     white-space: pre-line;
 }
 
+.event-modal-desc a,
+.event-modal-details a {
+    color: #ff7a2f;
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+}
+
 .event-card {
     cursor: pointer;
 }

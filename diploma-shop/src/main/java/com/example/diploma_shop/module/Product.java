@@ -1,5 +1,6 @@
 package com.example.diploma_shop.module;
 
+import com.example.diploma_shop.utils.ImagePathUtils;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,7 +22,7 @@ public class Product {
     private Double bonusPrice;
     private String imageName;
     private String size;
-    private String category; // Clothes, Skateboarding, Accesses, Brands
+    private String category;
     private String brand;
     private String productType;
     private String color;
@@ -44,7 +45,7 @@ public class Product {
 
     @Transient
     public String getImagePath() {
-        return normalizeImagePath(imageName);
+        return ImagePathUtils.normalize(imageName);
     }
 
     @Transient
@@ -58,7 +59,7 @@ public class Product {
 
         if (galleryImages != null && !galleryImages.isBlank()) {
             for (String image : galleryImages.split("[,;\\n]+")) {
-                String normalized = normalizeImagePath(image);
+                String normalized = ImagePathUtils.normalize(image);
                 if (!normalized.isBlank()) {
                     images.add(normalized);
                 }
@@ -87,32 +88,6 @@ public class Product {
         }
 
         return sizes;
-    }
-
-    private String normalizeImagePath(String rawImageName) {
-        if (rawImageName == null || rawImageName.isBlank()) {
-            return "";
-        }
-
-        String image = rawImageName.trim();
-
-        if (image.startsWith("http")) {
-            return image;
-        }
-        if (image.contains("static/images/")) {
-            return "/images/" + image.substring(image.indexOf("static/images/") + "static/images/".length());
-        }
-        if (image.contains("/images/")) {
-            return "/images/" + image.substring(image.indexOf("/images/") + "/images/".length());
-        }
-        if (image.startsWith("images/")) {
-            return "/" + image;
-        }
-        if (image.startsWith("/")) {
-            return image;
-        }
-
-        return "/images/" + image;
     }
 
 }

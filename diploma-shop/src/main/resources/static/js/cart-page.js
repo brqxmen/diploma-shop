@@ -19,19 +19,6 @@ function saveCart() {
     localStorage.setItem('street19_cart', JSON.stringify(cart));
 }
 
-function normalizeImagePath(image) {
-    if (!image) return '';
-
-    image = image.trim();
-    if (image.startsWith('http')) return image;
-    if (image.includes('static/images/')) return `/images/${image.split('static/images/').pop()}`;
-    if (image.includes('/images/')) return `/images/${image.split('/images/').pop()}`;
-    if (image.startsWith('images/')) return `/${image}`;
-    if (image.startsWith('/')) return image;
-
-    return `/images/${image}`;
-}
-
 function formatPrice(price) {
     if (window.Street19Preferences?.formatMoney) {
         return window.Street19Preferences.formatMoney(price);
@@ -176,7 +163,7 @@ function renderCartPage() {
 
         row.innerHTML = `
             <div class="cart-page-image">
-                <img src="${normalizeImagePath(item.image)}" alt="${item.name}">
+                <img src="${window.Street19Images.normalizePath(item.image)}" alt="${item.name}">
             </div>
             <div class="cart-page-info">
                 <div class="cart-page-head">

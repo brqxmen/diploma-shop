@@ -34,7 +34,6 @@ public class AdminController {
         this.subscriberRepository = subscriberRepository;
     }
 
-    // ── Дашборд ──────────────────────────────────────────────────────────────
     @GetMapping({"", "/"})
     public String dashboard(Model model) {
         model.addAttribute("totalProducts", productRepository.count());
@@ -48,7 +47,6 @@ public class AdminController {
         return "admin/dashboard";
     }
 
-    // ── Товары ───────────────────────────────────────────────────────────────
     @GetMapping("/products")
     public String products(Model model) {
         model.addAttribute("products", productRepository.findAll());
@@ -69,7 +67,6 @@ public class AdminController {
         return ResponseEntity.ok(Map.of("message", "Deleted"));
     }
 
-    // ── События ──────────────────────────────────────────────────────────────
     @GetMapping("/events")
     public String events(Model model) {
         model.addAttribute("events", eventRepository.findAll());
@@ -90,14 +87,12 @@ public class AdminController {
         return ResponseEntity.ok(Map.of("message", "Deleted"));
     }
 
-    // ── Клиенты ──────────────────────────────────────────────────────────────
     @GetMapping("/clients")
     public String clients(Model model) {
         model.addAttribute("clients", customerProfileRepository.findAll());
         return "admin/clients";
     }
 
-    // ── Подписчики ───────────────────────────────────────────────────────────
     @GetMapping("/orders")
     public String orders() {
         return "admin/orders";

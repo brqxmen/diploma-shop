@@ -47,9 +47,14 @@ public class ShopController {
                     model.addAttribute("product", product);
                     model.addAttribute("galleryImages", product.getGalleryImagePaths());
                     model.addAttribute("sizes", product.getSizeOptions());
+                    model.addAttribute("showSizeChart", isClothingProduct(product));
                     return "product";
                 })
                 .orElse("redirect:/shop");
+    }
+
+    private boolean isClothingProduct(Product product) {
+        return product.getCategory() != null && product.getCategory().equalsIgnoreCase("Clothes");
     }
 
     @GetMapping("/cart")

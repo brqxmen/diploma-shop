@@ -6,19 +6,6 @@
         title: 'Checkout'
     };
 
-    function normalizeImagePath(image) {
-        if (!image) return '';
-
-        image = String(image).trim();
-        if (image.startsWith('http')) return image;
-        if (image.includes('static/images/')) return `/images/${image.split('static/images/').pop()}`;
-        if (image.includes('/images/')) return `/images/${image.split('/images/').pop()}`;
-        if (image.startsWith('images/')) return `/${image}`;
-        if (image.startsWith('/')) return image;
-
-        return `/images/${image}`;
-    }
-
     function formatMoney(price) {
         if (window.Street19Preferences?.formatMoney) {
             return window.Street19Preferences.formatMoney(price);
@@ -44,7 +31,7 @@
                 id: item.id || '',
                 name: item.name,
                 price: Number(item.price || 0),
-                image: normalizeImagePath(item.image),
+                image: window.Street19Images.normalizePath(item.image),
                 size: item.size || '',
                 quantity: Math.max(1, Number(item.quantity || 1))
             }));

@@ -11,6 +11,24 @@ svg {
     max-width: 100%;
 }
 
+:root {
+    --sticky-header-offset: 50px;
+}
+
+body:has(> .main-header) {
+    padding-top: var(--sticky-header-offset) !important;
+}
+
+.main-header,
+.main-header.profile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 3000;
+}
+
 .events-page-container .events-section {
     min-height: auto;
     display: block;
@@ -38,6 +56,10 @@ svg {
 }
 
 @media (max-width: 900px) {
+    :root {
+        --sticky-header-offset: 92px;
+    }
+
     .main-header {
         height: auto;
         min-height: 50px;
@@ -589,12 +611,16 @@ svg {
 }
 
 @media (max-width: 640px) {
+    :root {
+        --sticky-header-offset: 96px;
+    }
+
     body {
         min-width: 0;
     }
 
     .main-header {
-        position: sticky;
+        position: fixed;
         top: 0;
         height: auto;
         min-height: 58px;

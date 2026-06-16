@@ -1,5 +1,6 @@
 package com.example.diploma_shop.module;
 
+import com.example.diploma_shop.utils.ImagePathUtils;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -64,29 +65,7 @@ public class Events {
 
     @Transient
     public String getImagePath() {
-        if (imageUrl == null || imageUrl.isBlank()) {
-            return "";
-        }
-
-        String image = imageUrl.trim();
-
-        if (image.startsWith("http")) {
-            return image;
-        }
-        if (image.contains("static/images/")) {
-            return "/images/" + image.substring(image.indexOf("static/images/") + "static/images/".length());
-        }
-        if (image.contains("/images/")) {
-            return "/images/" + image.substring(image.indexOf("/images/") + "/images/".length());
-        }
-        if (image.startsWith("images/")) {
-            return "/" + image;
-        }
-        if (image.startsWith("/")) {
-            return image;
-        }
-
-        return "/images/" + image;
+        return ImagePathUtils.normalize(imageUrl);
     }
 
     public void setImageUrl(String imageUrl) {

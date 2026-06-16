@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="mainHeader(extraClass, modalCart)"
+     class="main-header"
+     th:classappend="${extraClass}">
+    <div class="header-container">
+        <div class="logo">
+            <a th:href="@{/}">
+                <img th:src="@{/images/street 19.svg}" alt="logo">
+            </a>
+        </div>
+
+        <div class="nav-menu">
+            <ul>
+                <li><a th:href="@{/shop}" class="nav-link bg"><span>shop</span></a></li>
+                <li><a th:href="@{/culture}" class="nav-link bg"><span>culture</span></a></li>
+                <li><a th:href="@{/learn}" class="nav-link bg"><span>learn</span></a></li>
+                <li><a th:href="@{/events}" class="nav-link bg"><span>events</span></a></li>
+            </ul>
+        </div>
+
+        <div class="header-icon">
+            <a href="#" class="header-search-toggle">
+                <img th:src="@{/images/Vector-1.svg}" alt="search" class="nav-icon">
+            </a>
+            <a th:if="${modalCart}" href="#" id="cartBtn">
+                <img th:src="@{/images/Vector.svg}" alt="cart" class="nav-icon">
+            </a>
+            <a th:unless="${modalCart}" th:href="@{/cart}">
+                <img th:src="@{/images/Vector.svg}" alt="cart" class="nav-icon">
+            </a>
+            <a th:href="@{/profile}">
+                <img th:src="@{/images/Vector-2.svg}" alt="profile" class="nav-icon">
+            </a>
+            <form class="header-search-form" th:action="@{/shop}" method="get">
+                <label>
+                    <input type="text" name="search" placeholder="Search...">
+                </label>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

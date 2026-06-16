@@ -2093,6 +2093,24 @@ Wear basketball jerseys, college jackets, and let's go.`,
         return Array.from(document.querySelectorAll('.event-card')).find(card => getEventKey(card) === key) || null;
     }
 
+    function setTextIfChanged(element, value) {
+        if (element && element.textContent !== value) {
+            element.textContent = value;
+        }
+    }
+
+    function setEventModalText(element, value) {
+        if (!element) return;
+
+        const text = value || '';
+        if (typeof window.Street19RenderTextWithLinks === 'function') {
+            window.Street19RenderTextWithLinks(element, text);
+            return;
+        }
+
+        setTextIfChanged(element, text);
+    }
+
     function syncOpenEventModal() {
         const backdrop = document.getElementById('eventModalBackdrop');
         if (!backdrop?.classList.contains('open')) return;
@@ -2100,14 +2118,14 @@ Wear basketball jerseys, college jackets, and let's go.`,
         const card = findEventCardByKey(backdrop.dataset.eventKey);
         if (!card) return;
 
-        document.getElementById('modalTitle').textContent = card.dataset.title || '';
-        document.getElementById('modalLocation').textContent = card.dataset.location || '';
-        document.getElementById('modalDescription').textContent = card.dataset.description || '';
+        setTextIfChanged(document.getElementById('modalTitle'), card.dataset.title || '');
+        setTextIfChanged(document.getElementById('modalLocation'), card.dataset.location || '');
+        setEventModalText(document.getElementById('modalDescription'), card.dataset.description || '');
 
         const details = document.getElementById('modalDetails');
         const divider = document.querySelector('.event-modal-divider');
         if (details) {
-            details.textContent = card.dataset.details || '';
+            setEventModalText(details, card.dataset.details || '');
             details.style.display = card.dataset.details ? '' : 'none';
         }
         if (divider) {
@@ -2117,7 +2135,7 @@ Wear basketball jerseys, college jackets, and let's go.`,
         const date = document.getElementById('modalDate');
         if (date) {
             date.dataset.dateIso = card.dataset.dateIso || '';
-            date.textContent = card.dataset.date || '';
+            setTextIfChanged(date, card.dataset.date || '');
         }
     }
 

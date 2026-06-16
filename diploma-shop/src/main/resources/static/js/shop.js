@@ -76,12 +76,18 @@ function initProductBackButton() {
     });
 }
 
-function addWithData(button, event) {
+async function addWithData(button, event) {
     if (event) {
+        event.preventDefault();
         event.stopPropagation();
     }
 
-    addCartItem(getButtonCartItem(button));
+    const item = getButtonCartItem(button);
+    const sizeOptions = getButtonSizeOptions(button);
+
+    if (await resolveItemSize(item, sizeOptions)) {
+        addCartItem(item);
+    }
 }
 
 function getButtonCartItem(button) {
@@ -94,11 +100,21 @@ function getButtonCartItem(button) {
     return { id, name, price, image, size, quantity: 1 };
 }
 
+function getButtonSizeOptions(button) {
+    return parseSizeOptions(button.getAttribute('data-size-options') || '');
+}
+
 function initCatalogCartButtons() {
     document.querySelectorAll('.card-buttons button[data-name]').forEach(button => {
-        button.addEventListener('click', event => {
+        button.addEventListener('click', async event => {
             if (button.classList.contains('btn-black')) {
-                openBuyNowCheckout(getButtonCartItem(button), event);
+                event.preventDefault();
+                event.stopPropagation();
+
+                const item = getButtonCartItem(button);
+                if (await resolveItemSize(item, getButtonSizeOptions(button))) {
+                    openBuyNowCheckout(item, event);
+                }
                 return;
             }
 
@@ -146,17 +162,24 @@ function initProductDetailPage() {
     });
 
     if (addButton) {
-        addButton.addEventListener('click', (event) => {
+        addButton.addEventListener('click', async (event) => {
             event.stopPropagation();
             const selectedSize = document.querySelector('.product-size-option.selected');
-
-            addCartItem({
+            const item = {
                 id: addButton.getAttribute('data-id') || '',
                 name: addButton.getAttribute('data-name'),
                 price: parseFloat(addButton.getAttribute('data-price')),
                 image: addButton.getAttribute('data-image') || mainImage?.getAttribute('src') || '',
-                size: selectedSize?.getAttribute('data-size') || ''
-            });
+                size: selectedSize?.getAttribute('data-size') || '',
+                quantity: 1
+            };
+
+            if (!(await resolveItemSize(item, getProductSizeOptions(sizeButtons, addButton)))) {
+                return;
+            }
+
+            selectVisibleSize(sizeButtons, item.size);
+            addCartItem(item);
 
             addButton.textContent = getTranslatedText('product.added', 'ADDED');
             window.setTimeout(() => {
@@ -166,20 +189,131 @@ function initProductDetailPage() {
     }
 
     if (buyButton) {
-        buyButton.addEventListener('click', (event) => {
+        buyButton.addEventListener('click', async (event) => {
             event.stopPropagation();
             const selectedSize = document.querySelector('.product-size-option.selected');
-
-            openBuyNowCheckout({
+            const item = {
                 id: buyButton.getAttribute('data-id') || '',
                 name: buyButton.getAttribute('data-name'),
                 price: parseFloat(buyButton.getAttribute('data-price')),
                 image: buyButton.getAttribute('data-image') || mainImage?.getAttribute('src') || '',
                 size: selectedSize?.getAttribute('data-size') || '',
                 quantity: 1
-            }, event);
+            };
+
+            if (await resolveItemSize(item, getProductSizeOptions(sizeButtons, buyButton))) {
+                selectVisibleSize(sizeButtons, item.size);
+                openBuyNowCheckout(item, event);
+            }
         });
     }
+}
+
+function parseSizeOptions(rawSizeOptions) {
+    if (!rawSizeOptions) return [];
+
+    const seen = new Set();
+    return String(rawSizeOptions)
+        .split(/[,;/|\n]+/)
+        .map(size => size.trim())
+        .filter(size => {
+            if (!size || seen.has(size.toLowerCase())) return false;
+            seen.add(size.toLowerCase());
+            return true;
+        });
+}
+
+function getProductSizeOptions(sizeButtons, actionButton) {
+    const declaredOptions = parseSizeOptions(actionButton?.getAttribute('data-size-options') || '');
+    if (declaredOptions.length) return declaredOptions;
+
+    const visibleOptions = Array.from(sizeButtons)
+        .map(button => (button.getAttribute('data-size') || button.textContent || '').trim())
+        .filter(Boolean);
+
+    return visibleOptions.filter(size => size.toUpperCase() !== 'OS');
+}
+
+async function resolveItemSize(item, sizeOptions) {
+    if (!item?.name) return false;
+    if (!Array.isArray(sizeOptions) || sizeOptions.length === 0) return true;
+
+    if (sizeOptions.length === 1) {
+        item.size = item.size || sizeOptions[0];
+        return true;
+    }
+
+    if (item.size && sizeOptions.some(size => size.toLowerCase() === item.size.toLowerCase())) {
+        return true;
+    }
+
+    const chosenSize = await openSizeChoice(item.name, sizeOptions);
+    if (!chosenSize) return false;
+
+    item.size = chosenSize;
+    return true;
+}
+
+function selectVisibleSize(sizeButtons, size) {
+    if (!size) return;
+
+    sizeButtons.forEach(button => {
+        const buttonSize = button.getAttribute('data-size') || button.textContent || '';
+        button.classList.toggle('selected', buttonSize.trim().toLowerCase() === size.toLowerCase());
+    });
+}
+
+function openSizeChoice(productName, sizeOptions) {
+    return new Promise(resolve => {
+        document.querySelector('.size-choice-backdrop')?.remove();
+
+        const backdrop = document.createElement('div');
+        backdrop.className = 'size-choice-backdrop';
+        backdrop.innerHTML = `
+            <div class="size-choice-modal" role="dialog" aria-modal="true">
+                <p class="size-choice-title">Choose size</p>
+                <p class="size-choice-product"></p>
+                <div class="size-choice-options"></div>
+                <button type="button" class="size-choice-cancel">Cancel</button>
+            </div>
+        `;
+
+        const product = backdrop.querySelector('.size-choice-product');
+        const options = backdrop.querySelector('.size-choice-options');
+        product.textContent = productName;
+
+        sizeOptions.forEach(size => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'size-choice-option';
+            button.textContent = size;
+            button.addEventListener('click', () => close(size));
+            options.appendChild(button);
+        });
+
+        backdrop.querySelector('.size-choice-cancel').addEventListener('click', () => close(''));
+        backdrop.addEventListener('click', event => {
+            if (event.target === backdrop) {
+                close('');
+            }
+        });
+
+        document.addEventListener('keydown', handleEscape);
+        document.body.appendChild(backdrop);
+        options.querySelector('button')?.focus();
+
+        function handleEscape(event) {
+            if (event.key === 'Escape') {
+                close('');
+            }
+        }
+
+        function close(size) {
+            document.removeEventListener('keydown', handleEscape);
+            backdrop.remove();
+            resolve(size);
+        }
+    });
 }
 
 function openBuyNowCheckout(item, event) {
@@ -213,7 +347,7 @@ function addCartItem(product) {
         id: product.id || '',
         name: product.name,
         price: Number(product.price || 0),
-        image: normalizeImagePath(product.image),
+        image: window.Street19Images.normalizePath(product.image),
         size: product.size || '',
         quantity: 1
     };
@@ -247,20 +381,7 @@ function getProductImage(button) {
         image = cardImage?.getAttribute('src') || '';
     }
 
-    return normalizeImagePath(image);
-}
-
-function normalizeImagePath(image) {
-    if (!image) return '';
-
-    image = image.trim();
-    if (image.startsWith('http')) return image;
-    if (image.includes('static/images/')) return `/images/${image.split('static/images/').pop()}`;
-    if (image.includes('/images/')) return `/images/${image.split('/images/').pop()}`;
-    if (image.startsWith('images/')) return `/${image}`;
-    if (image.startsWith('/')) return image;
-
-    return `/images/${image}`;
+    return window.Street19Images.normalizePath(image);
 }
 
 function getTranslatedText(key, fallback) {
@@ -324,13 +445,15 @@ function updateCartUI() {
         const price = Number(item.price || 0);
         const quantity = Number(item.quantity || 1);
         total += price * quantity;
-        const image = normalizeImagePath(item.image);
+        const image = window.Street19Images.normalizePath(item.image);
+        const sizeLabel = item.size ? `<p class="cart-item-size">Size: ${item.size}</p>` : '';
 
         list.innerHTML += `
             <div class="cart-item">
                 <img src="${image}" alt="${item.name}" class="cart-item-img">
                 <div class="cart-item-info">
                     <p class="cart-item-name">${item.name}</p>
+                    ${sizeLabel}
                     <p class="cart-item-price" data-price-usd="${price}">${formatDisplayPrice(price)}</p>
                 </div>
                 <div class="cart-quantity">

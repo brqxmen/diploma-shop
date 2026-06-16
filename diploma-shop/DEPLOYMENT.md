@@ -4,8 +4,9 @@ This project is a Spring Boot application, so use Railway instead of Vercel.
 
 ## What Is Already Prepared
 
+- Root `Dockerfile` and root `railway.toml` let Railway deploy the repository directly from `C:\diploma`.
 - `Dockerfile` builds and runs the Spring Boot jar.
-- `railway.toml` tells Railway to use the Dockerfile.
+- `railway.toml` tells Railway to use the Dockerfile and check `/` after startup.
 - `application-prod.properties` uses the cloud `PORT` variable and an in-memory H2 database by default.
 - `DemoDataSeeder` fills an empty production database with demo STREET 19 products and events.
 
@@ -15,15 +16,9 @@ This project is a Spring Boot application, so use Railway instead of Vercel.
 2. Open Railway and create a new project.
 3. Choose `Deploy from GitHub repo`.
 4. Select this repository.
-5. If the GitHub repository root is `C:\diploma`, set Railway root directory to:
-
-```text
-diploma-shop
-```
-
-6. Deploy the service.
-7. Open the service settings, go to Networking, and click `Generate Domain`.
-8. Use the generated public URL for the diploma presentation.
+5. Deploy the service. The root Railway config will build the Spring Boot app from `diploma-shop`.
+6. Open the service settings, go to Networking, and click `Generate Domain`.
+7. Use the generated public URL for the diploma presentation.
 
 ## Environment Variables
 

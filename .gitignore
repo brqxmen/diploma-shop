@@ -1,0 +1,7 @@
+.idea/
+.vscode/
+*.iml
+*.log
+.env
+target/
+diploma-shop/target/

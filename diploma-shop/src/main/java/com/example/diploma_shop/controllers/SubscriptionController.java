@@ -1,37 +1,22 @@
 package com.example.diploma_shop.controllers;
 
-import com.example.diploma_shop.module.Subscriber;
-import com.example.diploma_shop.repositories.SubscriberRepository;
+import com.example.diploma_shop.services.SubscriptionService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SubscriptionController {
 
-    private final SubscriberRepository subscriberRepository;
+    private final SubscriptionService subscriptionService;
 
-    public SubscriptionController(SubscriberRepository subscriberRepository) {
-        this.subscriberRepository = subscriberRepository;
+    public SubscriptionController(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
     }
 
     @PostMapping("/api/subscribe")
-    @Transactional
     public ResponseEntity<?> subscribe(@RequestParam String email) {
-        if (email == null || email.isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Email не может быть пустым"));
-        }
-
-        if (subscriberRepository.existsByEmail(email)) {
-            return ResponseEntity.ok(Map.of("message", "Этот email уже подписан"));
-        }
-
-        Subscriber subscriber = new Subscriber();
-        subscriber.setEmail(email);
-        subscriberRepository.save(subscriber);
-
-        return ResponseEntity.ok(Map.of("message", "Спасибо за подписку!"));
+        return subscriptionService.subscribe(email);
     }
 }

@@ -104,19 +104,6 @@ function escapeHtml(value) {
         .replaceAll("'", '&#039;');
 }
 
-function normalizeImagePath(image) {
-    if (!image) return '';
-
-    image = image.trim();
-    if (image.startsWith('http')) return image;
-    if (image.includes('static/images/')) return `/images/${image.split('static/images/').pop()}`;
-    if (image.includes('/images/')) return `/images/${image.split('/images/').pop()}`;
-    if (image.startsWith('images/')) return `/${image}`;
-    if (image.startsWith('/')) return image;
-
-    return `/images/${image}`;
-}
-
 function formatPrice(price) {
     if (window.Street19Preferences?.formatMoney) {
         return window.Street19Preferences.formatMoney(price);
@@ -225,7 +212,7 @@ function renderOrders() {
 
         const items = (order.items || []).map(item => `
             <div class="order-product">
-                <img src="${normalizeImagePath(item.image)}" alt="${escapeHtml(item.name)}">
+                <img src="${window.Street19Images.normalizePath(item.image)}" alt="${escapeHtml(item.name)}">
                 <div class="order-product-info">
                     <h3>${escapeHtml(item.name)}</h3>
                     ${item.size ? `<p>Size: ${escapeHtml(item.size)}</p>` : ''}
