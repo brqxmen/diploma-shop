@@ -12,4 +12,6 @@ public interface EventRepository extends JpaRepository<Events, Long> {
 
     // Архивные события (дата < сейчас), сортировка по убыванию
     List<Events> findByEventDateLessThanOrderByEventDateDesc(LocalDateTime dateTime);
+
+    List<Events> findAllByImageUrl(String imageUrl);
 }

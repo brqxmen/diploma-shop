@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class DemoDataSeeder implements CommandLineRunner {
@@ -173,11 +174,7 @@ public class DemoDataSeeder implements CommandLineRunner {
     }
 
     private void seedEvents() {
-        if (eventRepository.count() > 0) {
-            return;
-        }
-
-        eventRepository.save(event(
+        upsertEvent(event(
                 "STREET 19 Best Trick Session",
                 "Open skate session with a best trick contest and prizes from the shop.",
                 "21.06.jpg",
@@ -186,7 +183,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Registration opens one hour before the session. Demo event for the diploma project."
         ));
 
-        eventRepository.save(event(
+        upsertEvent(event(
                 "Deck Setup Workshop",
                 "A small workshop where beginners learn how to assemble and tune a skateboard.",
                 "30.08.jpg",
@@ -195,7 +192,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Visitors can test tools, bearings, griptape, and different deck sizes."
         ));
 
-        eventRepository.save(event(
+        upsertEvent(event(
                 "Spring Street Jam",
                 "A past street session with local riders, music, and mini contests.",
                 "21.03.jpg",
@@ -204,7 +201,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Archive event from the STREET 19 spring program."
         ));
 
-        eventRepository.save(event(
+        upsertEvent(event(
                 "Beginner Skate Day",
                 "An open lesson for beginners with warm-up drills and first trick practice.",
                 "28.03.jpg",
@@ -213,7 +210,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Coaches helped new riders pick a stance, balance, and safer first lines."
         ));
 
-        eventRepository.save(event(
+        upsertEvent(event(
                 "Community Park Session",
                 "A community meetup with shared boards, filming, and best line voting.",
                 "02.05.jpg",
@@ -222,7 +219,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "Photos and highlights from one of the early summer archive sessions."
         ));
 
-        eventRepository.save(event(
+        upsertEvent(event(
                 "Girls Skate Meetup",
                 "A supportive meetup for girls and young riders with trick coaching.",
                 "17.05.jpg",
@@ -230,6 +227,24 @@ public class DemoDataSeeder implements CommandLineRunner {
                 "STREET 19 Pop-up Zone",
                 "Archive event with beginner-friendly workshops and open practice."
         ));
+    }
+
+    private void upsertEvent(Events demoEvent) {
+        List<Events> existingEvents = eventRepository.findAllByImageUrl(demoEvent.getImageUrl());
+
+        if (existingEvents.isEmpty()) {
+            eventRepository.save(demoEvent);
+            return;
+        }
+
+        for (Events existingEvent : existingEvents) {
+            existingEvent.setTitle(demoEvent.getTitle());
+            existingEvent.setDescription(demoEvent.getDescription());
+            existingEvent.setDetails(demoEvent.getDetails());
+            existingEvent.setEventDate(demoEvent.getEventDate());
+            existingEvent.setLocation(demoEvent.getLocation());
+            eventRepository.save(existingEvent);
+        }
     }
 
     private Product product(String name,

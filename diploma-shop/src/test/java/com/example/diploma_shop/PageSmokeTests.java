@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,5 +34,21 @@ class PageSmokeTests {
         mockMvc.perform(get(path))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("admin-body")));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"2026-06-21T18:00", "2025-08-30T16:00", "2025-05-17T16:30"})
+    void eventsPageUsesFixedDemoDates(String dateIso) throws Exception {
+        mockMvc.perform(get("/events"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(dateIso)));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"2026-06-30", "2026-07-16"})
+    void eventsPageDoesNotUseOldWrongUpcomingDates(String dateIso) throws Exception {
+        mockMvc.perform(get("/events"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(not(containsString(dateIso))));
     }
 }
