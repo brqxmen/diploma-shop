@@ -39,6 +39,7 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Address</th>
+                    <th>Verified</th>
                     <th>Email Offers</th>
                 </tr>
             </thead>
@@ -49,7 +50,11 @@
                     <td th:text="${c.lastName}"></td>
                     <td th:text="${c.email}"></td>
                     <td th:text="${c.address}"></td>
+                    <td th:text="${c.emailVerified} ? 'Yes' : 'No'"></td>
                     <td th:text="${c.emailOffers} ? 'Yes' : 'No'"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(clients)}">
+                    <td colspan="7">No clients yet</td>
                 </tr>
             </tbody>
         </table>

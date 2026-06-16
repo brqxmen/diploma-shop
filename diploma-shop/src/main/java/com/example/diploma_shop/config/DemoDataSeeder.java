@@ -1,7 +1,9 @@
 package com.example.diploma_shop.config;
 
 import com.example.diploma_shop.module.Events;
+import com.example.diploma_shop.module.CustomerProfile;
 import com.example.diploma_shop.module.Product;
+import com.example.diploma_shop.repositories.CustomerProfileRepository;
 import com.example.diploma_shop.repositories.EventRepository;
 import com.example.diploma_shop.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -15,16 +17,21 @@ public class DemoDataSeeder implements CommandLineRunner {
 
     private final ProductRepository productRepository;
     private final EventRepository eventRepository;
+    private final CustomerProfileRepository customerProfileRepository;
 
-    public DemoDataSeeder(ProductRepository productRepository, EventRepository eventRepository) {
+    public DemoDataSeeder(ProductRepository productRepository,
+                          EventRepository eventRepository,
+                          CustomerProfileRepository customerProfileRepository) {
         this.productRepository = productRepository;
         this.eventRepository = eventRepository;
+        this.customerProfileRepository = customerProfileRepository;
     }
 
     @Override
     public void run(String... args) {
         seedProducts();
         seedEvents();
+        seedCustomerProfiles();
     }
 
     private void seedProducts() {
@@ -247,6 +254,40 @@ public class DemoDataSeeder implements CommandLineRunner {
         }
     }
 
+    private void seedCustomerProfiles() {
+        upsertCustomerProfile(customer(
+                "Maya",
+                "Sultan",
+                "maya@street19.local",
+                true,
+                true,
+                "Almaty, Dostyk Ave 19"
+        ));
+
+        upsertCustomerProfile(customer(
+                "Arman",
+                "Kim",
+                "arman@street19.local",
+                true,
+                false,
+                "Almaty, Abay Ave 42"
+        ));
+    }
+
+    private void upsertCustomerProfile(CustomerProfile demoProfile) {
+        CustomerProfile profile = customerProfileRepository.findByEmailIgnoreCase(demoProfile.getEmail())
+                .orElseGet(CustomerProfile::new);
+
+        profile.setFirstName(demoProfile.getFirstName());
+        profile.setLastName(demoProfile.getLastName());
+        profile.setEmail(demoProfile.getEmail());
+        profile.setEmailVerified(demoProfile.getEmailVerified());
+        profile.setEmailOffers(demoProfile.getEmailOffers());
+        profile.setAddress(demoProfile.getAddress());
+
+        customerProfileRepository.save(profile);
+    }
+
     private Product product(String name,
                             Double price,
                             Double bonusPrice,
@@ -287,5 +328,21 @@ public class DemoDataSeeder implements CommandLineRunner {
         event.setLocation(location);
         event.setDetails(details);
         return event;
+    }
+
+    private CustomerProfile customer(String firstName,
+                                     String lastName,
+                                     String email,
+                                     Boolean emailVerified,
+                                     Boolean emailOffers,
+                                     String address) {
+        CustomerProfile profile = new CustomerProfile();
+        profile.setFirstName(firstName);
+        profile.setLastName(lastName);
+        profile.setEmail(email);
+        profile.setEmailVerified(emailVerified);
+        profile.setEmailOffers(emailOffers);
+        profile.setAddress(address);
+        return profile;
     }
 }

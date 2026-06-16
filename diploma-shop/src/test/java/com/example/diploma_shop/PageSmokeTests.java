@@ -37,6 +37,14 @@ class PageSmokeTests {
     }
 
     @ParameterizedTest
+    @ValueSource(strings = {"maya@street19.local", "arman@street19.local"})
+    void adminClientsPageShowsDemoUsers(String email) throws Exception {
+        mockMvc.perform(get("/admin/clients"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(email)));
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = {"2026-06-21T18:00", "2025-08-30T16:00", "2025-05-17T16:30"})
     void eventsPageUsesFixedDemoDates(String dateIso) throws Exception {
         mockMvc.perform(get("/events"))
