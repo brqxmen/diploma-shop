@@ -26,4 +26,12 @@ class PageSmokeTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("main-header")));
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"/admin", "/admin/products", "/admin/events", "/admin/clients", "/admin/orders", "/admin/subscribers"})
+    void adminPagesRender(String path) throws Exception {
+        mockMvc.perform(get(path))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("admin-body")));
+    }
 }

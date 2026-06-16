@@ -5,13 +5,11 @@ import com.example.diploma_shop.module.Product;
 import com.example.diploma_shop.repositories.EventRepository;
 import com.example.diploma_shop.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Component
-@Profile("prod")
 public class DemoDataSeeder implements CommandLineRunner {
 
     private final ProductRepository productRepository;
